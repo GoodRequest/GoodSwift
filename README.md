@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/GoodSwift.svg?style=flat)](http://cocoapods.org/pods/GoodSwift)
 [![Platform](https://img.shields.io/cocoapods/p/GoodSwift.svg?style=flat)](http://cocoapods.org/pods/GoodSwift)
 
-Some good swift extensions.
+Some good swift extensions, handfully crafted by GoodRequest team.
 
 ## Requirements
 
