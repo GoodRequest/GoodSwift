@@ -111,7 +111,7 @@ extension UIStoryboard {
 extension UITableView {
     
     func registerHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) {
-        register(UINib(nibName: String(describing: className), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: type))
+        register(UINib(nibName: String(describing: type), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: type))
     }
     
     func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) -> T? {
