@@ -70,7 +70,7 @@ extension DataRequest {
 
 extension UIView {
     
-    enum Rotate {
+    public enum Rotate {
         
         case by0, by90, by180, by270
         
@@ -89,7 +89,7 @@ extension UIView {
         
     }
     
-    func rotate(_ rotateBy: Rotate) {
+    public func rotate(_ rotateBy: Rotate) {
         let superviewOfView = superview != nil ? superview! : self
         
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: .beginFromCurrentState, animations: {
@@ -102,7 +102,7 @@ extension UIView {
 
 extension UIStoryboard {
     
-    func instantiateViewController<T: UIViewController>(withClass clas: T.Type) -> T? {
+    public func instantiateViewController<T: UIViewController>(withClass clas: T.Type) -> T? {
         return instantiateViewController(withIdentifier: String(describing: clas)) as? T
     }
     
@@ -110,15 +110,15 @@ extension UIStoryboard {
 
 extension UITableView {
     
-    func registerHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) {
+    public func registerHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) {
         register(UINib(nibName: String(describing: type), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: type))
     }
     
-    func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) -> T? {
+    public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) -> T? {
         return dequeueReusableHeaderFooterView(withIdentifier: String(describing: type)) as? T
     }
     
-    func dequeueReusableCell<T: UITableViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T? {
+    public func dequeueReusableCell<T: UITableViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T? {
         return dequeueReusableCell(withIdentifier: String(describing: type), for: indexPath) as? T
     }
     
@@ -126,11 +126,11 @@ extension UITableView {
 
 extension UIColor {
     
-    class func color(rgb: Int, a: CGFloat = 1.0) -> UIColor {
+    public class func color(rgb: Int, a: CGFloat = 1.0) -> UIColor {
         return UIColor.color(r: rgb, g: rgb, b: rgb, a: a)
     }
     
-    class func color(r: Int, g: Int, b: Int, a: CGFloat = 1.0) -> UIColor {
+    public class func color(r: Int, g: Int, b: Int, a: CGFloat = 1.0) -> UIColor {
         return UIColor(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: a)
     }
     
@@ -140,11 +140,11 @@ extension UIColor {
 
 extension String {
     
-    init(localized: String, arguments: CVarArg...) {
+    public init(localized: String, arguments: CVarArg...) {
         self.init(format: NSLocalizedString(localized, comment: ""), arguments: arguments)
     }
     
-    init(localized: String) {
+    public init(localized: String) {
         self = NSLocalizedString(localized, comment: "")
     }
     
@@ -152,12 +152,12 @@ extension String {
 
 extension Array {
     
-    func randomItem() -> Element? {
+    public func randomItem() -> Element? {
         guard count > 0 else { return nil }
         return self[Int(arc4random_uniform(UInt32(count)))]
     }
     
-    func contains(index: Int) -> Bool {
+    public func contains(index: Int) -> Bool {
         return (startIndex..<endIndex).contains(index)
     }
     
