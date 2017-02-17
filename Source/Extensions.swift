@@ -17,22 +17,27 @@ extension DataRequest {
     @discardableResult
     public func log() -> Self {
         response(completionHandler: { (response: DefaultDataResponse) in
-            if let url = response.request?.url {
-                print("🚀 \(url.absoluteString)")
+            if let url = response.request?.url, let method = response.request?.httpMethod {
+                print("🚀 \(method) \(url.absoluteString)")
+            }
+            if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.characters.count > 0 {
+                print("📦 \(string)")
             }
             if let response = response.response {
                 switch response.statusCode {
                 case 200 ..< 300:
                     print("✅ \(response.statusCode)")
                 default:
-                    print("⁉️ \(response.statusCode)")
+                    print("❌ \(response.statusCode)")
                     break
                 }
             }
-            if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8) {
+            if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.characters.count > 0 {
                 print("📦 \(string)")
             }
-            if let error = response.error {
+            if let error = response.error as? NSError {
+                print("‼️ [\(error.domain) \(error.code)] \(error.localizedDescription)")
+            } else if let error = response.error {
                 print("‼️ \(error)")
             }
             print("")
