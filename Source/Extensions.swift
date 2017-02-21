@@ -14,6 +14,9 @@ import ObjectMapper
 
 extension DataRequest {
     
+    /// Prints request and response information.
+    ///
+    /// - returns: Self.
     @discardableResult
     public func log() -> Self {
         response(completionHandler: { (response: DefaultDataResponse) in
@@ -94,6 +97,7 @@ extension UIView {
         
     }
     
+    /// Rotates the view by specified angle.
     public func rotate(_ rotateBy: Rotate) {
         let superviewOfView = superview != nil ? superview! : self
         
@@ -107,6 +111,9 @@ extension UIView {
 
 extension UIStoryboard {
     
+    /// Creates an instance of storyboard with specified class type.
+    ///
+    /// - returns: The new `Type` instance.
     public func instantiateViewController<T: UIViewController>(withClass clas: T.Type) -> T? {
         return instantiateViewController(withIdentifier: String(describing: clas)) as? T
     }
@@ -115,14 +122,17 @@ extension UIStoryboard {
 
 extension UITableView {
     
+    /// Register header footer view with specified class type.
     public func registerHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) {
         register(UINib(nibName: String(describing: type), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: type))
     }
     
+    /// Dequeue reusable header footer view with specified class type.
     public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) -> T? {
         return dequeueReusableHeaderFooterView(withIdentifier: String(describing: type)) as? T
     }
     
+    /// Dequeue reusable cell with specified class type.
     public func dequeueReusableCell<T: UITableViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T? {
         return dequeueReusableCell(withIdentifier: String(describing: type), for: indexPath) as? T
     }
@@ -131,10 +141,16 @@ extension UITableView {
 
 extension UIColor {
     
+    /// Creates an instance with specified RGBA values.
+    ///
+    /// - returns: The new `UIColor` instance.
     public class func color(rgb: Int, a: CGFloat = 1.0) -> UIColor {
         return UIColor.color(r: rgb, g: rgb, b: rgb, a: a)
     }
     
+    /// Creates an instance with specified RGBA values.
+    ///
+    /// - returns: The new `UIColor` instance.
     public class func color(r: Int, g: Int, b: Int, a: CGFloat = 1.0) -> UIColor {
         return UIColor(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: a)
     }
@@ -145,10 +161,16 @@ extension UIColor {
 
 extension String {
     
+    /// Returns localized String with given arguments.
+    ///
+    /// - returns: A localized String.
     public init(localized: String, arguments: CVarArg...) {
         self.init(format: NSLocalizedString(localized, comment: ""), arguments: arguments)
     }
     
+    /// Returns localized String.
+    ///
+    /// - returns: A localized String.
     public init(localized: String) {
         self = NSLocalizedString(localized, comment: "")
     }
@@ -157,11 +179,17 @@ extension String {
 
 extension Array {
     
+    /// Returns random item from array or nil if the array is empty.
+    ///
+    /// - returns: An Element or nil.
     public func randomItem() -> Element? {
         guard count > 0 else { return nil }
         return self[Int(arc4random_uniform(UInt32(count)))]
     }
     
+    /// Returns true if array contains item with specified index, otherwise returns false.
+    ///
+    /// - returns: true or false whether the array contains specified index.
     public func contains(index: Int) -> Bool {
         return (startIndex..<endIndex).contains(index)
     }
