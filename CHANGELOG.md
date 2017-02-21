@@ -1,3 +1,12 @@
+## [0.2.4](https://bitbucket.org/GoodRequest/swift/commits/tag/0.2.4)
+Released on 2017-02-21.
+
+#### Added
+- Package.swift
+
+#### Updated
+- source file comment headers
+
 ## [0.2.3](https://bitbucket.org/GoodRequest/swift/commits/tag/0.2.3)
 Released on 2017-02-21.
 
