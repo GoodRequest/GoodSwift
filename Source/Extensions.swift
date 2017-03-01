@@ -44,6 +44,7 @@ extension DataRequest {
     public func log() -> Self {
         #if DEBUG
             response(completionHandler: { (response: DefaultDataResponse) in
+                print("")
                 if let url = response.request?.url, let method = response.request?.httpMethod {
                     print("🚀 \(method) \(url.absoluteString)")
                 }
@@ -67,7 +68,6 @@ extension DataRequest {
                 } else if let error = response.error {
                     print("‼️ \(error)")
                 }
-                print("")
             })
         #endif
         return self
@@ -82,6 +82,7 @@ extension DataRequest {
     /// - returns: Self.
     @discardableResult
     public func unboxArray<T: Unboxable>(keyPath: String? = nil, allowInvalidElements: Bool = false, completion: @escaping (DataResponse<[T]>) -> Void) -> Self {
+        log()
         
         return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
@@ -96,18 +97,18 @@ extension DataRequest {
                     if let array = array {
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.success(array)))
                     } else {
-                        let error = GoodSwiftError(description: "‼️ Error while unboxing [\(T.self)]\n")
+                        let error = GoodSwiftError(description: "‼️ Error while unboxing [\(T.self)]")
                         debugLog(error.description)
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                     }
                 } catch let error {
-                    debugLog("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
+                    debugLog("‼️ Error while unboxing [\(T.self)]\n\(error)")
                     completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                 }
             case .failure(let error):
                 completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
             }
-        }).log()
+        })
     }
     
     /// Unbox a JSON dictionary into a model `T` beginning at a certain key path.
@@ -118,6 +119,7 @@ extension DataRequest {
     /// - returns: Self.
     @discardableResult
     public func unbox<T: Unboxable>(keyPath: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
+        log()
         
         return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
@@ -134,18 +136,18 @@ extension DataRequest {
                     if let item = item {
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.success(item)))
                     } else {
-                        let error = GoodSwiftError(description: "‼️ Error while unboxing \(T.self)\n")
+                        let error = GoodSwiftError(description: "‼️ Error while unboxing \(T.self)")
                         debugLog(error.description)
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                     }
                 } catch let error {
-                    debugLog("‼️ Error while unboxing \(T.self)\n\(error)\n")
+                    debugLog("‼️ Error while unboxing \(T.self)\n\(error)")
                     completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                 }
             case .failure(let error):
                 completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
             }
-        }).log()
+        })
     }
     
 }
