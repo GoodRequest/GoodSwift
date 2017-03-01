@@ -30,7 +30,27 @@ pod "GoodSwift"
 
 ## Usage
 
-**.good**mapping allows you to easily decode JSON objects from [Alamofire](https://github.com/Alamofire/Alamofire) responses using [Unbox](https://github.com/JohnSundell/Unbox) decoder. You can see examples how to map your model in [Unbox readme](https://github.com/JohnSundell/Unbox/blob/master/README.md). Then you just need to use `unbox` or `unboxArray` functions to decode your model.
+### Mapping
+
+**.good**swift allows you to easily decode JSON objects from [Alamofire](https://github.com/Alamofire/Alamofire) responses using [Unbox](https://github.com/JohnSundell/Unbox) decoder. You can see examples how to map your model in [Unbox readme](https://github.com/JohnSundell/Unbox/blob/master/README.md).
+
+```swift
+import Unbox
+
+struct Object {
+    let origin: String
+    let url:    URL
+}
+
+extension Object: Unboxable {
+    init(unboxer: Unboxer) throws {
+        self.origin = try unboxer.unbox(key: "origin")
+        self.url = try unboxer.unbox(key: "url")
+    }
+}
+```
+
+Then you just need to use `unbox` or `unboxArray` functions to decode your model.
 
 ```swift
 import Alamofire
@@ -44,6 +64,26 @@ Alamofire.request("https://httpbin.org/get").unbox(completion: { (response: Data
         // Handle error
     }
 })
+```
+
+### Logging
+
+Automatic logging is enabled when there is `Active Compilation Conditions` flag `DEBUG` defined in projects `Build Settings`. If you have added **.good**swift using [CocoaPods](http://cocoapods.org) you need to add flag `DEBUG` manually into `Active Compilation Conditions` in **.good**swift pod `Build Settings`. If you don't want to add this flag manually after each `pod install` you just need to add this script at the end of your `Podfile`.
+
+```ruby
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        if target.name == 'GoodSwift'
+            target.build_configurations.each do |config|
+                if config.name == 'Debug'
+                    config.build_settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = 'DEBUG'
+                    else
+                    config.build_settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = ''
+                end
+            end
+        end
+    end
+end
 ```
 
 ## Author
