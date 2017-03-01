@@ -33,10 +33,13 @@ pod "GoodSwift"
 **.good**mapping allows you to easily decode JSON objects from [Alamofire](https://github.com/Alamofire/Alamofire) responses using [Unbox](https://github.com/JohnSundell/Unbox) decoder. You can see examples how to map your model in [Unbox readme](https://github.com/JohnSundell/Unbox/blob/master/README.md). Then you just need to use `unbox` or `unboxArray` functions to decode your model.
 
 ```swift
-Alamofire.request("https://httpbin.org/get").unbox(completion: { response in
+import Alamofire
+import GoodSwift
+
+Alamofire.request("https://httpbin.org/get").unbox(completion: { (response: DataResponse<T>) in
     switch response.result {
     case .success(let object):
-        // decoded object
+        // Decoded object
     case .failure(let error):
         // Handle error
     }
