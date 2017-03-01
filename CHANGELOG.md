@@ -1,3 +1,16 @@
+## [0.4.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.0)
+Released on 2017-03-01.
+
+#### Updated
+- Model mapping using Unbox.
+
+#### Added
+- Unbox dependency.
+
+#### Removed
+- AlamofireObjectMapper dependency.
+- Protocols.swift file.
+
 ## [0.3.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.3.0)
 Released on 2017-02-21.
 
