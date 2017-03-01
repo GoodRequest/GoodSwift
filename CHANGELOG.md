@@ -1,3 +1,9 @@
+## [0.4.4](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.4)
+Released on 2017-03-01.
+
+#### Updated
+- Minor logging improvements.
+
 ## [0.4.3](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.3)
 Released on 2017-03-01.
 

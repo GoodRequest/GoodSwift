@@ -92,4 +92,4 @@ Marek Spalek, marek.spalek@goodrequest.com
 
 ## License
 
-Smaky is available under the MIT license. See the LICENSE file for more info.
+**.good**swift is available under the MIT license. See the LICENSE file for more info.
