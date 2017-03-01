@@ -22,13 +22,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import UIKit
 import Alamofire
-import AlamofireObjectMapper
-import ObjectMapper
+import Unbox
 
 // MARK: - Alamofire
 
 extension DataRequest {
+    
+    static let goodSwiftErrorDomain = "com.goodrequest.goodswift"
     
     /// Prints request and response information.
     ///
@@ -65,27 +67,65 @@ extension DataRequest {
     }
     
     @discardableResult
-    public func objectArray<T: ResponseMappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, context: MapContext? = nil, completion: @escaping (DataResponse<[T]>) -> Void) -> Self {
-        return responseArray(queue: queue, keyPath: keyPath, completionHandler: { (response: DataResponse<[T.MappableType]>) in
+    public func unboxArray<T: Unboxable>(keyPath: String? = nil, allowInvalidElements: Bool = false, completion: @escaping (DataResponse<[T]>) -> Void) -> Self {
+        
+        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
-                completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.success(value.map { T(from: $0) } )))
+                do {
+                    var array: [T]?
+                    if let keyPath = keyPath, let dictionary = value as? UnboxableDictionary {
+                        array = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath, allowInvalidElements: allowInvalidElements)
+                    } else if let dictionaries = value as? [UnboxableDictionary] {
+                        array = try Unbox.unbox(dictionaries: dictionaries, allowInvalidElements: allowInvalidElements)
+                    }
+                    if let array = array {
+                        completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.success(array)))
+                    } else {
+                        let error = NSError(domain: DataRequest.goodSwiftErrorDomain, code: 1, userInfo: nil)
+                        print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
+                        completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
+                    }
+                } catch let error {
+                    print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
+                    completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
+                }
             case .failure(let error):
                 completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
             }
-        })
+        }).log()
     }
     
     @discardableResult
-    public func object<T : ResponseMappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, mapToObject object: T? = nil, context: MapContext? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
-        return responseObject(queue: queue, keyPath: keyPath, mapToObject: nil, context: context, completionHandler: { (response: DataResponse<T.MappableType>) in
+    public func unbox<T: Unboxable>(keyPath: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
+        
+        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
-                completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.success(T.init(from: value))))
+                do {
+                    var item: T?
+                    if let dictionary = value as? UnboxableDictionary {
+                        if let keyPath = keyPath {
+                            item = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath) as T
+                        } else {
+                            item = try Unbox.unbox(dictionary: dictionary) as T
+                        }
+                    }
+                    if let item = item {
+                        completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.success(item)))
+                    } else {
+                        let error = NSError(domain: DataRequest.goodSwiftErrorDomain, code: 1, userInfo: nil)
+                        print("‼️ Error while unboxing \(T.self)\n\(error)\n")
+                        completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
+                    }
+                } catch let error {
+                    print("‼️ Error while unboxing \(T.self)\n\(error)\n")
+                    completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
+                }
             case .failure(let error):
                 completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
             }
-        })
+        }).log()
     }
     
 }
