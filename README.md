@@ -37,12 +37,12 @@ pod "GoodSwift"
 ```swift
 import Unbox
 
-struct Object {
+struct Foo {
     let origin: String
     let url:    URL
 }
 
-extension Object: Unboxable {
+extension Foo: Unboxable {
     init(unboxer: Unboxer) throws {
         self.origin = try unboxer.unbox(key: "origin")
         self.url = try unboxer.unbox(key: "url")
@@ -56,7 +56,7 @@ Then you just need to use `unbox` or `unboxArray` functions to decode your model
 import Alamofire
 import GoodSwift
 
-Alamofire.request("https://httpbin.org/get").unbox(completion: { (response: DataResponse<T>) in
+Alamofire.request("https://httpbin.org/get").unbox(completion: { (response: DataResponse<Foo>) in
     switch response.result {
     case .success(let object):
         // Decoded object
@@ -68,7 +68,7 @@ Alamofire.request("https://httpbin.org/get").unbox(completion: { (response: Data
 
 ### Logging
 
-Automatic logging is enabled when there is `Active Compilation Conditions` flag `DEBUG` defined in projects `Build Settings`. If you have added **.good**swift using [CocoaPods](http://cocoapods.org) you need to add flag `DEBUG` manually into `Active Compilation Conditions` in **.good**swift pod `Build Settings`. If you don't want to add this flag manually after each `pod install` you just need to add this script at the end of your `Podfile`.
+Automatic logging is enabled when there is `Active Compilation Conditions` flag `DEBUG` defined in project's `Build Settings`. If you have added **.good**swift using [CocoaPods](http://cocoapods.org) you need to add flag `DEBUG` manually into `Active Compilation Conditions` in **.good**swift pod `Build Settings`. If you don't want to add this flag manually after each `pod install` you just need to add this script at the end of your `Podfile`.
 
 ```ruby
 post_install do |installer|
