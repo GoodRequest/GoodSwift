@@ -69,7 +69,7 @@ extension DataRequest {
     @discardableResult
     public func unboxArray<T: Unboxable>(keyPath: String? = nil, allowInvalidElements: Bool = false, completion: @escaping (DataResponse<[T]>) -> Void) -> Self {
         
-        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
+        let dataRequest = responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
                 do {
@@ -83,23 +83,31 @@ extension DataRequest {
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.success(array)))
                     } else {
                         let error = NSError(domain: DataRequest.goodSwiftErrorDomain, code: 1, userInfo: nil)
-                        print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
+                        #if DEBUG
+                            print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
+                        #endif
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                     }
                 } catch let error {
-                    print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
+                    #if DEBUG
+                        print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
+                    #endif
                     completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                 }
             case .failure(let error):
                 completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
             }
-        }).log()
+        })
+        #if DEBUG
+            dataRequest.log()
+        #endif
+        return dataRequest;
     }
     
     @discardableResult
     public func unbox<T: Unboxable>(keyPath: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
         
-        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
+        let dataRequest = responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
                 do {
@@ -115,17 +123,25 @@ extension DataRequest {
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.success(item)))
                     } else {
                         let error = NSError(domain: DataRequest.goodSwiftErrorDomain, code: 1, userInfo: nil)
-                        print("‼️ Error while unboxing \(T.self)\n\(error)\n")
+                        #if DEBUG
+                            print("‼️ Error while unboxing \(T.self)\n\(error)\n")
+                        #endif
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                     }
                 } catch let error {
-                    print("‼️ Error while unboxing \(T.self)\n\(error)\n")
+                    #if DEBUG
+                        print("‼️ Error while unboxing \(T.self)\n\(error)\n")
+                    #endif
                     completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                 }
             case .failure(let error):
                 completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
             }
-        }).log()
+        })
+        #if DEBUG
+            dataRequest.log()
+        #endif
+        return dataRequest;
     }
     
 }
