@@ -58,7 +58,7 @@ import GoodSwift
 
 Alamofire.request("https://httpbin.org/get").unbox(completion: { (response: DataResponse<Foo>) in
     switch response.result {
-    case .success(let object):
+    case .success(let foo):
         // Decoded object
     case .failure(let error):
         // Handle error
