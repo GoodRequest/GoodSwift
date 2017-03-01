@@ -26,50 +26,64 @@ import UIKit
 import Alamofire
 import Unbox
 
+/// Prints text only when in DEBUG.
+private func debugLog(_ text: String) {
+    #if DEBUG
+        print(text)
+    #endif
+}
+
 // MARK: - Alamofire
 
 extension DataRequest {
-    
-    static let goodSwiftErrorDomain = "com.goodrequest.goodswift"
     
     /// Prints request and response information.
     ///
     /// - returns: Self.
     @discardableResult
     public func log() -> Self {
-        response(completionHandler: { (response: DefaultDataResponse) in
-            if let url = response.request?.url, let method = response.request?.httpMethod {
-                print("🚀 \(method) \(url.absoluteString)")
-            }
-            if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.characters.count > 0 {
-                print("📦 \(string)")
-            }
-            if let response = response.response {
-                switch response.statusCode {
-                case 200 ..< 300:
-                    print("✅ \(response.statusCode)")
-                default:
-                    print("❌ \(response.statusCode)")
-                    break
+        #if DEBUG
+            response(completionHandler: { (response: DefaultDataResponse) in
+                if let url = response.request?.url, let method = response.request?.httpMethod {
+                    print("🚀 \(method) \(url.absoluteString)")
                 }
-            }
-            if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.characters.count > 0 {
-                print("📦 \(string)")
-            }
-            if let error = response.error as? NSError {
-                print("‼️ [\(error.domain) \(error.code)] \(error.localizedDescription)")
-            } else if let error = response.error {
-                print("‼️ \(error)")
-            }
-            print("")
-        })
+                if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.characters.count > 0 {
+                    print("📦 \(string)")
+                }
+                if let response = response.response {
+                    switch response.statusCode {
+                    case 200 ..< 300:
+                        print("✅ \(response.statusCode)")
+                    default:
+                        print("❌ \(response.statusCode)")
+                        break
+                    }
+                }
+                if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.characters.count > 0 {
+                    print("📦 \(string)")
+                }
+                if let error = response.error as? NSError {
+                    print("‼️ [\(error.domain) \(error.code)] \(error.localizedDescription)")
+                } else if let error = response.error {
+                    print("‼️ \(error)")
+                }
+                print("")
+            })
+        #endif
         return self
     }
     
+    /// Unbox an array of JSON dictionaries into an array of `T`, optionally allowing invalid elements.
+    ///
+    /// - parameter keyPath:                JSON keyPath of the array.
+    /// - parameter allowInvalidElements:   Whether to allow invalid elements in array.
+    /// - parameter completion:             A closure to be executed once the request has finished.
+    ///
+    /// - returns: Self.
     @discardableResult
     public func unboxArray<T: Unboxable>(keyPath: String? = nil, allowInvalidElements: Bool = false, completion: @escaping (DataResponse<[T]>) -> Void) -> Self {
         
-        let dataRequest = responseJSON(completionHandler: { (response: DataResponse<Any>) in
+        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
                 do {
@@ -82,32 +96,30 @@ extension DataRequest {
                     if let array = array {
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.success(array)))
                     } else {
-                        let error = NSError(domain: DataRequest.goodSwiftErrorDomain, code: 1, userInfo: nil)
-                        #if DEBUG
-                            print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
-                        #endif
+                        let error = GoodSwiftError(description: "‼️ Error while unboxing [\(T.self)]\n")
+                        debugLog(error.description)
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                     }
                 } catch let error {
-                    #if DEBUG
-                        print("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
-                    #endif
+                    debugLog("‼️ Error while unboxing [\(T.self)]\n\(error)\n")
                     completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                 }
             case .failure(let error):
                 completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
             }
-        })
-        #if DEBUG
-            dataRequest.log()
-        #endif
-        return dataRequest;
+        }).log()
     }
     
+    /// Unbox a JSON dictionary into a model `T` beginning at a certain key path.
+    ///
+    /// - parameter keyPath:                JSON keyPath of the model.
+    /// - parameter completion:             A closure to be executed once the request has finished.
+    ///
+    /// - returns: Self.
     @discardableResult
     public func unbox<T: Unboxable>(keyPath: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
         
-        let dataRequest = responseJSON(completionHandler: { (response: DataResponse<Any>) in
+        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
                 do {
@@ -122,27 +134,28 @@ extension DataRequest {
                     if let item = item {
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.success(item)))
                     } else {
-                        let error = NSError(domain: DataRequest.goodSwiftErrorDomain, code: 1, userInfo: nil)
-                        #if DEBUG
-                            print("‼️ Error while unboxing \(T.self)\n\(error)\n")
-                        #endif
+                        let error = GoodSwiftError(description: "‼️ Error while unboxing \(T.self)\n")
+                        debugLog(error.description)
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                     }
                 } catch let error {
-                    #if DEBUG
-                        print("‼️ Error while unboxing \(T.self)\n\(error)\n")
-                    #endif
+                    debugLog("‼️ Error while unboxing \(T.self)\n\(error)\n")
                     completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                 }
             case .failure(let error):
                 completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
             }
-        })
-        #if DEBUG
-            dataRequest.log()
-        #endif
-        return dataRequest;
+        }).log()
     }
+    
+}
+
+// MARK: - Error
+
+/// GoodSwift error.
+public struct GoodSwiftError: Error, CustomStringConvertible {
+    
+    public let description: String
     
 }
 
