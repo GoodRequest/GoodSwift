@@ -1,3 +1,13 @@
+## [0.4.3](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.3)
+Released on 2017-03-01.
+
+#### Added
+- GoodSwiftError struct.
+- Missing comments.
+
+#### Updated
+- Improved debug logging.
+
 ## [0.4.2](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.2)
 Released on 2017-03-01.
 
