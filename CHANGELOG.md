@@ -1,3 +1,9 @@
+## [0.4.6](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.6)
+Released on 2017-03-28.
+
+#### Updated
+- Swift 3.1 warning fixes.
+
 ## [0.4.5](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.5)
 Released on 2017-03-28.
 
