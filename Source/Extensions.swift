@@ -174,11 +174,11 @@ extension UIView {
             case .by0:
                 return 0.0
             case .by90:
-                return M_PI_2
+                return .pi / 2
             case .by180:
-                return M_PI
+                return .pi
             case .by270:
-                return M_PI + M_PI_2
+                return .pi + .pi / 2
             }
         }
         
