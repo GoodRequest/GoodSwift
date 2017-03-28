@@ -63,7 +63,7 @@ extension DataRequest {
                 if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.characters.count > 0 {
                     print("📦 \(string)")
                 }
-                if let error = response.error as? NSError {
+                if let error = response.error as NSError? {
                     print("‼️ [\(error.domain) \(error.code)] \(error.localizedDescription)")
                 } else if let error = response.error {
                     print("‼️ \(error)")
