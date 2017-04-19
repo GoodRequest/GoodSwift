@@ -26,16 +26,45 @@ import UIKit
 import Alamofire
 import Unbox
 
-/// Prints text only when in DEBUG.
-private func debugLog(_ text: String) {
+/// Log level enum
+///
+/// error - prints only when error occurs
+/// info - prints request url with response status and error when occurs
+/// verbose - prints everything including request body and response object
+public enum GoodSwiftLogLevel {
+    case    error,
+            info,
+            verbose
+}
+
+/// Functions for printing in each log level.
+private func logError(_ text: String) {
     #if DEBUG
         print(text)
+    #endif
+}
+
+private func logInfo(_ text: String) {
+    #if DEBUG
+        if DataRequest.logLevel != .error {
+            print(text)
+        }
+    #endif
+}
+
+private func logVerbose(_ text: String) {
+    #if DEBUG
+        if DataRequest.logLevel == .verbose {
+            print(text)
+        }
     #endif
 }
 
 // MARK: - Alamofire
 
 extension DataRequest {
+    
+    open static var logLevel = GoodSwiftLogLevel.info
     
     /// Prints request and response information.
     ///
@@ -46,27 +75,31 @@ extension DataRequest {
             response(completionHandler: { (response: DefaultDataResponse) in
                 print("")
                 if let url = response.request?.url, let method = response.request?.httpMethod {
-                    print("🚀 \(method) \(url.absoluteString)")
+                    if response.error == nil {
+                        logInfo("🚀 \(method) \(url.absoluteString)")
+                    } else {
+                        logError("🚀 \(method) \(url.absoluteString)")
+                    }
                 }
                 if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.characters.count > 0 {
-                    print("📦 \(string)")
+                    logVerbose("📦 \(string)")
                 }
                 if let response = response.response {
                     switch response.statusCode {
                     case 200 ..< 300:
-                        print("✅ \(response.statusCode)")
+                        logInfo("✅ \(response.statusCode)")
                     default:
-                        print("❌ \(response.statusCode)")
+                        logInfo("❌ \(response.statusCode)")
                         break
                     }
                 }
                 if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.characters.count > 0 {
-                    print("📦 \(string)")
+                    logVerbose("📦 \(string)")
                 }
                 if let error = response.error as NSError? {
-                    print("‼️ [\(error.domain) \(error.code)] \(error.localizedDescription)")
+                    logError("‼️ [\(error.domain) \(error.code)] \(error.localizedDescription)")
                 } else if let error = response.error {
-                    print("‼️ \(error)")
+                    logError("‼️ \(error)")
                 }
             })
         #endif
@@ -98,11 +131,11 @@ extension DataRequest {
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.success(array)))
                     } else {
                         let error = GoodSwiftError(description: "‼️ Error while unboxing [\(T.self)]")
-                        debugLog(error.description)
+                        logError(error.description)
                         completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                     }
                 } catch let error {
-                    debugLog("‼️ Error while unboxing [\(T.self)]\n\(error)")
+                    logError("‼️ Error while unboxing [\(T.self)]\n\(error)")
                     completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
                 }
             case .failure(let error):
@@ -137,11 +170,11 @@ extension DataRequest {
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.success(item)))
                     } else {
                         let error = GoodSwiftError(description: "‼️ Error while unboxing \(T.self)")
-                        debugLog(error.description)
+                        logError(error.description)
                         completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                     }
                 } catch let error {
-                    debugLog("‼️ Error while unboxing \(T.self)\n\(error)")
+                    logError("‼️ Error while unboxing \(T.self)\n\(error)")
                     completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
                 }
             case .failure(let error):
