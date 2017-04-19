@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GoodSwift'
-  s.version          = '0.4.6'
+  s.version          = '0.5.0'
   s.summary          = 'Some good swift extensions.'
 
   s.description      = <<-DESC

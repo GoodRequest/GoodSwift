@@ -1,3 +1,9 @@
+## [0.5.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.5.0)
+Released on 2017-04-19.
+
+#### Added
+- log level support
+
 ## [0.4.6](https://github.com/GoodRequest/GoodSwift/releases/tag/0.4.6)
 Released on 2017-03-28.
 

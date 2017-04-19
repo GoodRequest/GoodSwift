@@ -85,6 +85,11 @@ post_install do |installer|
     end
 end
 ```
+#### Log level
+You can choose logging level by setting `logLevel` static variable from `DataRequest` class. For now you can choose from these logging levels:
+- error - prints only when error occurs
+- info (default) - prints request url with response status and error when occurs
+- verbose - prints everything including request body and response object
 
 ## Author
 
