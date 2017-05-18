@@ -240,6 +240,25 @@ extension UIStoryboard {
     
 }
 
+extension UICollectionView {
+    
+    /// Register supplementary view with specified class type.
+    public func register<T: UICollectionReusableView>(viewClass type: T.Type, forSupplementaryViewOfKind: String = UICollectionElementKindSectionHeader) {
+        return register(UINib(nibName: String(describing: type), bundle: nil), forSupplementaryViewOfKind: forSupplementaryViewOfKind, withReuseIdentifier: String(describing: type))
+    }
+    
+    /// Dequeue reusable supplementary view with specified class type.
+    public func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind kind: String, fromClass type: T.Type, for indexPath: IndexPath) -> T {
+        return dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: type), for: indexPath) as! T
+    }
+    
+    /// Dequeue reusable cell with specified class type.
+    public func dequeueReusableCell<T: UICollectionViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T {
+        return dequeueReusableCell(withReuseIdentifier: String(describing: type), for: indexPath) as! T
+    }
+    
+}
+
 extension UITableView {
     
     /// Register header footer view with specified class type.
