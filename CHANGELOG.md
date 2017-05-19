@@ -1,3 +1,9 @@
+## [0.5.1](https://github.com/GoodRequest/GoodSwift/releases/tag/0.5.1)
+Released on 2017-05-19.
+
+#### Added
+- Added registering and dequeuing extensions of UICollectionView.
+
 ## [0.5.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.5.0)
 Released on 2017-04-19.
 
