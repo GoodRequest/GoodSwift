@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GoodSwift'
-  s.version          = '0.5.1'
+  s.version          = '0.6.0'
   s.summary          = 'Some good swift extensions.'
 
   s.description      = <<-DESC
@@ -18,7 +18,7 @@ Some good swift extensions, handfully crafted by GoodRequest team.
 
   s.source_files = 'Source/*'
   s.frameworks = 'UIKit'
-  s.dependency 'Alamofire', '~> 4.4'
-  s.dependency 'Unbox', '~> 2.4'
+  s.dependency 'Alamofire', '~> 4.5'
+  s.dependency 'Unbox', '~> 2.5'
 
 end

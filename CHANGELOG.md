@@ -1,3 +1,12 @@
+## [0.6.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.6.0)
+Released on 2017-06-28.
+
+#### Added
+- Example project with tests.
+
+#### Updated
+- Removing percent encoding from url logs.
+
 ## [0.5.1](https://github.com/GoodRequest/GoodSwift/releases/tag/0.5.1)
 Released on 2017-05-19.
 
