@@ -74,11 +74,11 @@ extension DataRequest {
         #if DEBUG
             response(completionHandler: { (response: DefaultDataResponse) in
                 print("")
-                if let url = response.request?.url, let method = response.request?.httpMethod {
+                if let url = response.request?.url?.absoluteString.removingPercentEncoding, let method = response.request?.httpMethod {
                     if response.error == nil {
-                        logInfo("🚀 \(method) \(url.absoluteString)")
+                        logInfo("🚀 \(method) \(url)")
                     } else {
-                        logError("🚀 \(method) \(url.absoluteString)")
+                        logError("🚀 \(method) \(url)")
                     }
                 }
                 if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.characters.count > 0 {
