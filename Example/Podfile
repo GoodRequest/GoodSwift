@@ -1,0 +1,20 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target 'GoodSwiftTest' do
+  pod 'GoodSwift', :path => '../GoodSwift.podspec'
+end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        if target.name == 'GoodSwift'
+            target.build_configurations.each do |config|
+                if config.name == 'Debug'
+                    config.build_settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = 'DEBUG'
+                    else
+                    config.build_settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = ''
+                end
+            end
+        end
+    end
+end
