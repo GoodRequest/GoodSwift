@@ -334,3 +334,75 @@ extension Array {
     }
     
 }
+
+extension DispatchQueue {
+    
+    /// Asyncs after closure
+    ///
+    /// - parameter seconds: Time to dispatch after in seconds
+    /// - parameter handler: Closure to execute after given time
+    func asyncAfter(seconds: TimeInterval, handler: @escaping () -> Void) {
+        let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(Int(Double(seconds * 1000)))
+        asyncAfter(deadline: deadline, execute: handler)
+    }
+}
+
+extension Sequence where Iterator.Element == String? {
+    
+    /// Joins sequence of strings into one string with given separator
+    ///
+    /// - parameter separator: Separator between each two elements in sequence
+    func joined(withSeparator separator: String) -> String {
+        var components = [String]()
+        forEach { (element) in
+            if let element = element, element.characters.count > 0 {
+                components.append(element)
+            }
+        }
+        if components.count > 0 {
+            return components.joined(separator: separator)
+        }
+        return String()
+    }
+}
+
+extension UIView {
+    
+    /// View corner radius. Don't forget to set clipsToBounds = true
+    @IBInspectable var cornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        } set {
+            layer.cornerRadius = newValue
+        }
+    }
+    
+    /// View border color
+    @IBInspectable var borderColor: UIColor {
+        get {
+            return UIColor(cgColor: layer.borderColor!)
+        } set {
+            layer.borderColor = newValue.cgColor
+        }
+    }
+    
+    /// View border width
+    @IBInspectable var borderWidth: CGFloat {
+        get {
+            return layer.borderWidth
+        } set {
+            layer.borderWidth = newValue
+        }
+    }
+    
+    /// Animates shake with view
+    func shakeView() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = kShakeAnimationDuration
+        animation.repeatCount = 8
+        animation.autoreverses = true
+        animation.fromValue = NSValue(CGPoint: CGPointMake(center.x - 5.0, center.y))
+        animation.toValue = NSValue(CGPoint: CGPointMake(center.x + 5.0, center.y))
+        layer.addAnimation(animation, forKey: "position")
+    }
+}
