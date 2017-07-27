@@ -39,18 +39,18 @@ class Node<T> {
  * Collection of data elements. Linear order is given by chaining nodes of data structure. It's also called: Queue, Front. LinkedList is implementation of **FIFO**
  */
 
-class LinkedList<T>: Sequence {
+public class LinkedList<T>: Sequence {
     
-    typealias Iterator = LinkedListIterator<T>
+    public typealias Iterator = LinkedListIterator<T>
     
-    private var head: Node<T>?
-    private var tail: Node<T>?
+    var head: Node<T>?
+    var tail: Node<T>?
     
     /** 
      * Pops first item from LinkedList and ***remove*** it from queue.
      - Returns: First item of queue
      */
-    func pop() -> T? {
+    public func pop() -> T? {
         let node = head
         head = head?.nextNode
         if head == nil {
@@ -63,15 +63,15 @@ class LinkedList<T>: Sequence {
      * Return first item of LinkedList ***without*** removing it from queue.
      - Returns: First item of queue
      */
-    func peak() -> Node<T>? {
-        return head
+    public func peak() -> T? {
+        return head?.item
     }
     
     /**
      * Insert item into LinkedList on the last position.
      - parameter item: Item to insert
      */
-    func push(_ item: T) {
+    public func push(_ item: T) {
         if head == nil {
             head = Node(item)
             tail = head
@@ -81,7 +81,7 @@ class LinkedList<T>: Sequence {
         tail = tail?.nextNode
     }
     
-    init() {
+    public init() {
         head = nil
         tail = nil
     }
@@ -90,7 +90,7 @@ class LinkedList<T>: Sequence {
      * Check if collection is empty
      - Returns: Bool value
      */
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return head == nil && tail == nil
     }
     
@@ -98,18 +98,18 @@ class LinkedList<T>: Sequence {
      * Create iterator from LinkedList
      - Returns: LinkedListIterator of current LinkedList
      */
-    func makeIterator() -> LinkedListIterator<T> {
+    public func makeIterator() -> LinkedListIterator<T> {
         return LinkedListIterator(self)
     }
 }
 
-struct LinkedListIterator<T>: IteratorProtocol {
-    typealias Element = T
+public struct LinkedListIterator<T>: IteratorProtocol {
+    public typealias Element = T
     
     let head: Node<T>
     var current: Node<T>?
     
-    mutating func next() -> T? {
+    mutating public func next() -> T? {
         let currentNode = current
         current = currentNode?.nextNode
         return currentNode?.item
@@ -118,7 +118,7 @@ struct LinkedListIterator<T>: IteratorProtocol {
 
 extension LinkedListIterator {
     init(_ linkedList: LinkedList<Element>) {
-        head = linkedList.peak()!
+        head = linkedList.head!
         current = head
     }
 }

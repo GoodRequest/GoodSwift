@@ -27,7 +27,7 @@
  */
 import UIKit
 
-class AnimationChain {
+public class AnimationChain {
     
     typealias Animation = (TimeInterval, () -> Void)
     fileprivate let queue: LinkedList<Animation> = LinkedList()
@@ -37,7 +37,7 @@ class AnimationChain {
      - SeeAlso:  `AnimationChain`
      - Returns: **AnimationChain** object containg all chained animation.
      */
-    func animate(withDuration: TimeInterval, animation: @escaping () -> Void) -> AnimationChain {
+    public func animate(withDuration: TimeInterval, animation: @escaping () -> Void) -> AnimationChain {
         queue.push(Animation(withDuration, animation))
         return self
     }
@@ -47,7 +47,7 @@ class AnimationChain {
      - parameter completion: Block which will be executed at the end of animations
      - Returns: **AnimationChain** object containg all chained animation.
      */
-    func start(completion: (() -> Void)? = nil) {
+    public func start(completion: (() -> Void)? = nil) {
         start(animation: queue.pop(), completion: completion)
     }
     
