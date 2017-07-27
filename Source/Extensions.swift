@@ -219,13 +219,20 @@ extension UIView {
     
     /// Rotates the view by specified angle.
     public func rotate(_ rotateBy: Rotate) {
-        let superviewOfView = superview != nil ? superview! : self
-        
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: .beginFromCurrentState, animations: {
             self.transform = CGAffineTransform(rotationAngle: CGFloat(rotateBy.rotationValue))
-            superviewOfView.layoutIfNeeded()
         }, completion: nil)
     }
+    
+    /**
+     Create chainable animation. At the and of chaing, just call start function.
+     - Returns : **AnimationChain** object containg all chained animation.
+     */
+    static func chainAnimation(withDuration: TimeInterval, animation: @escaping  () -> Void) -> AnimationChain {
+        let chain = AnimationChain()
+        return chain.animate(withDuration: withDuration, animation: animation)
+    }
+
     
 }
 
@@ -314,6 +321,13 @@ extension String {
         self = NSLocalizedString(localized, comment: "")
     }
     
+    /// Return localized String from current string.
+    /// - returns: A localized String.
+    ///Usage: "someString".localized
+    
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
+    }
 }
 
 extension Array {
@@ -334,3 +348,4 @@ extension Array {
     }
     
 }
+
