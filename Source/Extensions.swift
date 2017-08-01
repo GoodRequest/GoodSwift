@@ -389,13 +389,13 @@ extension UIView {
     }
     
     /// Animates shake with view
-    public func shakeView() {
+    public func shakeView(duration: CFTimeInterval = 0.02, repeatCount: Float = 8.0, offset: CGFloat = 5.0) {
         let animation = CABasicAnimation(keyPath: "position")
-        animation.duration = 0.02
-        animation.repeatCount = 8
+        animation.duration = duration
+        animation.repeatCount = repeatCount
         animation.autoreverses = true
-        animation.fromValue = NSValue(cgPoint: CGPoint(x: center.x - 5.0, y: center.y))
-        animation.toValue = NSValue(cgPoint: CGPoint(x: center.x + 5.0, y: center.y))
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: center.x - offset, y: center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: center.x + offset, y: center.y))
         layer.add(animation, forKey: "position")
     }
 }
