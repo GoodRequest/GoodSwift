@@ -96,9 +96,9 @@ You can choose logging level by setting `logLevel` static variable from `DataReq
 **.good**swift allows you to easily chain UIView animations.
 
 ```swift
-UIView.chainAnimation(withDuration: 2) {
+UIView.animationChain.animate(withDuration: 2) {
     view.alpha = 0.0
-}.animate(withDuration: 2) { [weak self] in
+}.animate(withDuration: 2) {
     view.alpha = 1.0
 }.start {
     debugPrint("Animation finished")
@@ -113,21 +113,21 @@ UIView.chainAnimation(withDuration: 2) {
 ```swift
 let queue = LinkedList<Int>()
 
-print(queue.isEmpty) // true
+print(queue.isEmpty)            // true
 
-queue.push(1) // [1]
-queue.push(2) // [1, 2]
-queue.push(3) // [1, 2, 3]
+queue.push(1)                   // [1]
+queue.push(2)                   // [1, 2]
+queue.push(3)                   // [1, 2, 3]
 
-print(queue.contains(1)) // true
-print(queue.filter { $0 > 1 }) // [2, 3]
-print(queue.map { $0 + 2 }) // [3, 4, 5]
-print(queue.pop()) // Optional(1)
-print(queue.pop()) // Optional(2)
-print(queue.isEmpty) // false
-print(queue.peak()) // Optional(3)
-print(queue.pop()) // Optional(3)
-print(queue.isEmpty) // true
+print(queue.contains(1))        // true
+print(queue.filter { $0 > 1 })  // [2, 3]
+print(queue.map { $0 + 2 })     // [3, 4, 5]
+print(queue.pop())              // Optional(1)
+print(queue.pop())              // Optional(2)
+print(queue.isEmpty)            // false
+print(queue.peak())             // Optional(3)
+print(queue.pop())              // Optional(3)
+print(queue.isEmpty)            // true
 ```
 
 

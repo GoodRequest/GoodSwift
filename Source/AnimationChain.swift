@@ -22,31 +22,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-/**
- Container containg all chained animation. If you want to use chained animation use this:
- */
 import UIKit
 
+/// Container containg all chained animation.
 public class AnimationChain {
     
     typealias Animation = (TimeInterval, () -> Void)
     fileprivate let queue: LinkedList<Animation> = LinkedList()
-    
-    /**
-     Append new animation to current animation queue. At the and of caing just call start.
-     - SeeAlso:  `AnimationChain`
-     - Returns: **AnimationChain** object containg all chained animation.
-     */
+
+    /// Append new animation to current animation queue. At the and of caing just call start.
+    ///
+    /// - SeeAlso: `AnimationChain`
+    /// - returns: `AnimationChain` object containg all chained animation.
     public func animate(withDuration: TimeInterval, animation: @escaping () -> Void) -> AnimationChain {
         queue.push(Animation(withDuration, animation))
         return self
     }
     
-    /**
-     Start all animation.
-     - parameter completion: Block which will be executed at the end of animations
-     - Returns: **AnimationChain** object containg all chained animation.
-     */
+    /// Start all animation.
+    ///
+    /// - parameter completion: Block which will be executed at the end of animations
+    /// - returns: `AnimationChain` object containg all chained animation.
     public func start(completion: (() -> Void)? = nil) {
         start(animation: queue.pop(), completion: completion)
     }
@@ -61,4 +57,13 @@ public class AnimationChain {
         }
     }
  
+}
+
+extension UIView {
+    
+    /// Sttic computed variable for accessing AnimationChain
+    public var animationChain: AnimationChain {
+        return AnimationChain()
+    }
+    
 }

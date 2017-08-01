@@ -23,9 +23,8 @@
 // THE SOFTWARE.
 
 
-/** Cointainer for item in LinkedList.
- * Node contains of value called **item** and next chained node
-*/
+/// Cointainer for item in LinkedList.
+/// Node contains of value called `item` and next chained node
 class Node<T> {
     
     var item: T
@@ -37,10 +36,8 @@ class Node<T> {
     
 }
 
-/**
- * Collection of data elements. Linear order is given by chaining nodes of data structure. It's also called: Queue, Front. LinkedList is implementation of **FIFO**
- */
-
+/// Collection of data elements. Linear order is given by chaining nodes of data structure. 
+/// It's also called: Queue, Front. LinkedList is implementation of `FIFO`
 public class LinkedList<T>: Sequence {
     
     public typealias Iterator = LinkedListIterator<T>
@@ -48,10 +45,9 @@ public class LinkedList<T>: Sequence {
     var head: Node<T>?
     var tail: Node<T>?
     
-    /** 
-     * Pops first item from LinkedList and ***remove*** it from queue.
-     - Returns: First item of queue
-     */
+    /// Pops first item from LinkedList and remove it from queue.
+    ///
+    /// - returns: First item of queue
     public func pop() -> T? {
         let node = head
         head = head?.nextNode
@@ -61,18 +57,16 @@ public class LinkedList<T>: Sequence {
         return node?.item
     }
     
-    /**
-     * Return first item of LinkedList ***without*** removing it from queue.
-     - Returns: First item of queue
-     */
+    /// Return first item of LinkedList without removing it from queue.
+    ///
+    /// - returns: First item of queue
     public func peak() -> T? {
         return head?.item
     }
     
-    /**
-     * Insert item into LinkedList on the last position.
-     - parameter item: Item to insert
-     */
+    /// Insert item into LinkedList on the last position.
+    ///
+    /// - parameter item: Item to insert
     public func push(_ item: T) {
         if head == nil {
             head = Node(item)
@@ -88,18 +82,16 @@ public class LinkedList<T>: Sequence {
         tail = nil
     }
     
-    /**
-     * Check if collection is empty
-     - Returns: Bool value
-     */
+    /// Check if collection is empty
+    ///
+    /// - returns: Bool value
     public var isEmpty: Bool {
         return head == nil && tail == nil
     }
     
-    /**
-     * Create iterator from LinkedList
-     - Returns: LinkedListIterator of current LinkedList
-     */
+    /// Create iterator from LinkedList
+    ///
+    /// - returns: LinkedListIterator of current LinkedList
     public func makeIterator() -> LinkedListIterator<T> {
         return LinkedListIterator(self)
     }

@@ -261,15 +261,6 @@ extension UIView {
             self.transform = CGAffineTransform(rotationAngle: CGFloat(rotateBy.rotationValue))
         }, completion: nil)
     }
-    
-    /**
-     Create chainable animation. At the and of chaing, just call start function.
-     - Returns : **AnimationChain** object containg all chained animation.
-     */
-    public static func chainAnimation(withDuration: TimeInterval, animation: @escaping  () -> Void) -> AnimationChain {
-        let chain = AnimationChain()
-        return chain.animate(withDuration: withDuration, animation: animation)
-    }
 
 }
 
