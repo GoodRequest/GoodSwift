@@ -1,3 +1,11 @@
+## [0.7.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.7.0)
+Released on 2017-08-01.
+
+#### Added
+- More UIView extensions.
+- DispatchQueue and Sequence extensions.
+- Animation chaining using linked list.
+
 ## [0.6.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.6.0)
 Released on 2017-06-28.
 

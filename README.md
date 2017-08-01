@@ -138,7 +138,9 @@ Marek Spalek, marek.spalek@goodrequest.com
 ## Contributors
 
 Pavol Kmet, pavol.kmet@goodrequest.com
+
 Tomas Gibas, tomas.gibas@goodrequest.com
+
 Dominik Petho, dominik.petho@goodrequest.com
 
 ## License
