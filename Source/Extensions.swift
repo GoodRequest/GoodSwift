@@ -198,6 +198,44 @@ public struct GoodSwiftError: Error, CustomStringConvertible {
 
 extension UIView {
     
+    /// View corner radius. Don't forget to set clipsToBounds = true
+    @IBInspectable public var cornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        } set {
+            layer.cornerRadius = newValue
+        }
+    }
+    
+    /// View border color
+    @IBInspectable public var borderColor: UIColor {
+        get {
+            return UIColor(cgColor: layer.borderColor ?? UIColor.black.cgColor)
+        } set {
+            layer.borderColor = newValue.cgColor
+        }
+    }
+    
+    /// View border width
+    @IBInspectable public var borderWidth: CGFloat {
+        get {
+            return layer.borderWidth
+        } set {
+            layer.borderWidth = newValue
+        }
+    }
+    
+    /// Animates shake with view
+    public func shakeView(duration: CFTimeInterval = 0.02, repeatCount: Float = 8.0, offset: CGFloat = 5.0) {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = duration
+        animation.repeatCount = repeatCount
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: center.x - offset, y: center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: center.x + offset, y: center.y))
+        layer.add(animation, forKey: "position")
+    }
+    
     public enum Rotate {
         
         case by0, by90, by180, by270
@@ -349,3 +387,28 @@ extension Array {
     
 }
 
+extension DispatchQueue {
+    
+    /// Asyncs after closure
+    ///
+    /// - parameter seconds: Time to dispatch after in seconds
+    /// - parameter handler: Closure to execute after given time
+    public func asyncAfter(seconds: TimeInterval, handler: @escaping () -> Void) {
+        let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(Int(Double(seconds * 1000)))
+        asyncAfter(deadline: deadline, execute: handler)
+    }
+    
+}
+
+extension Sequence where Iterator.Element == String? {
+    
+    /// Joins sequence of strings into one string with given separator
+    ///
+    /// - parameter separator: Separator between each two elements in sequence
+    public func joined(withSeparator separator: String) -> String {
+        return filter { $0 != nil && $0!.characters.count > 0 }
+            .map { $0! }
+            .joined(separator: separator)
+    }
+    
+}
