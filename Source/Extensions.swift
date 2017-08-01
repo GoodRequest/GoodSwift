@@ -314,6 +314,29 @@ extension String {
         self = NSLocalizedString(localized, comment: "")
     }
     
+    /// Returns height of string with constraint width
+    ///
+    /// - parameter width: Constrained width of string
+    /// - parameter font: Font used to calculate height
+    /// - returns: Height of string
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        
+        return boundingBox.height
+    }
+    
+    /// Returns width of string with constraint height
+    ///
+    /// - parameter height: Constrained height of string
+    /// - parameter font: Font used to calculate width
+    /// - returns: Width of string
+    func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        
+        return boundingBox.width
+    }
 }
 
 extension Array {
@@ -444,3 +467,13 @@ extension UIView {
         layer.add(animation, forKey: "position")
     }
 }
+
+extension DateFormatter {
+    
+    /// Convenience initializer for date with format
+    public convenience init(format: String) {
+        self.init()
+        dateFormat = format
+    }
+}
+
