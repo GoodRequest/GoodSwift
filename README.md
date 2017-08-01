@@ -96,15 +96,12 @@ You can choose logging level by setting `logLevel` static variable from `DataReq
 **.good**swift allows you to easily chain UIView animations.
 
 ```swift
-
-func animate(view: UIView) {
-	UIView.chainAnimation(withDuration: 2) {
-        view.alpha = 0.0
-    }.animate(withDuration: 2) { [weak self] in
-        view.alpha = 1.0
-    }.start {
-      	debugPrint("Animation finished")
-    }
+UIView.chainAnimation(withDuration: 2) {
+    view.alpha = 0.0
+}.animate(withDuration: 2) { [weak self] in
+    view.alpha = 1.0
+}.start {
+    debugPrint("Animation finished")
 }
 ```
 
@@ -114,26 +111,23 @@ func animate(view: UIView) {
 [Wiki](https://en.wikipedia.org/wiki/Linked_list)
 
 ```swift
+let queue = LinkedList<Int>()
 
-func someFunction() {
-	let queue = LinkedList<Int>()
+print(queue.isEmpty) // true
 
-    debugPrint(queue.isEmpty) // true
+queue.push(1) // [1]
+queue.push(2) // [1, 2]
+queue.push(3) // [1, 2, 3]
 
-    queue.push(1) // [1]
-    queue.push(2) // [1, 2]
-    queue.push(3) // [1, 2, 3]
-
-    debugPrint(queue.contains(1)) // true
-    debugPrint(queue.filter { $0 > 1 }) // [2, 3]
-    debugPrint(queue.map { $0 + 2 }) // [3, 4, 5]
-    debugPrint(queue.pop()) // Optional(1)
-    debugPrint(queue.pop()) // Optional(2)
-    debugPrint(queue.isEmpty) // false
-    debugPrint(queue.peak()) // Optional(3)
-    debugPrint(queue.pop()) // Optional(3)
-    debugPrint(queue.isEmpty) // true
-}
+print(queue.contains(1)) // true
+print(queue.filter { $0 > 1 }) // [2, 3]
+print(queue.map { $0 + 2 }) // [3, 4, 5]
+print(queue.pop()) // Optional(1)
+print(queue.pop()) // Optional(2)
+print(queue.isEmpty) // false
+print(queue.peak()) // Optional(3)
+print(queue.pop()) // Optional(3)
+print(queue.isEmpty) // true
 ```
 
 
