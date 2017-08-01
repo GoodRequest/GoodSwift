@@ -388,6 +388,51 @@ extension UIView {
         }
     }
     
+    /// View's layer masks to bounds
+    @IBInspectable public var masksToBounds: Bool {
+        get {
+            return layer.masksToBounds
+        } set {
+            layer.masksToBounds = newValue
+        }
+    }
+    
+    /// View shadow opacity
+    @IBInspectable public var shadowOpacity: Float {
+        get {
+            return layer.shadowOpacity
+        } set {
+            layer.shadowOpacity = newValue
+        }
+    }
+    
+    /// View shadow color
+    @IBInspectable public var shadowColor: UIColor {
+        get {
+            return UIColor(cgColor: layer.shadowColor!)
+        } set {
+            layer.shadowColor = newValue.cgColor
+        }
+    }
+    
+    /// View shadow radius
+    @IBInspectable public var shadowRadius: CGFloat {
+        get {
+            return layer.shadowRadius
+        } set {
+            layer.shadowRadius = newValue
+        }
+    }
+    
+    /// View shadow offset
+    @IBInspectable public var shadowOffset: CGSize {
+        get {
+            return layer.shadowOffset
+        } set {
+            layer.shadowOffset = newValue
+        }
+    }
+    
     /// Animates shake with view
     public func shakeView(duration: CFTimeInterval = 0.02, repeatCount: Float = 8.0, offset: CGFloat = 5.0) {
         let animation = CABasicAnimation(keyPath: "position")
