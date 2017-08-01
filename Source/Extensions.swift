@@ -373,7 +373,7 @@ extension UIView {
     /// View border color
     @IBInspectable public var borderColor: UIColor {
         get {
-            return UIColor(cgColor: layer.borderColor!)
+            return UIColor(cgColor: layer.borderColor ?? UIColor.black.cgColor)
         } set {
             layer.borderColor = newValue.cgColor
         }
