@@ -1,5 +1,5 @@
 //
-// Extensions.swift
+// LinkedList.swift
 // GoodSwift
 //
 // Copyright (c) 2017 GoodRequest (https://goodrequest.com)
@@ -27,12 +27,14 @@
  * Node contains of value called **item** and next chained node
 */
 class Node<T> {
+    
     var item: T
     var nextNode: Node<T>? = nil
     
     init(_ item: T) {
         self.item = item
     }
+    
 }
 
 /**
@@ -101,9 +103,11 @@ public class LinkedList<T>: Sequence {
     public func makeIterator() -> LinkedListIterator<T> {
         return LinkedListIterator(self)
     }
+    
 }
 
 public struct LinkedListIterator<T>: IteratorProtocol {
+    
     public typealias Element = T
     
     let head: Node<T>
@@ -114,12 +118,14 @@ public struct LinkedListIterator<T>: IteratorProtocol {
         current = currentNode?.nextNode
         return currentNode?.item
     }
+    
 }
 
 extension LinkedListIterator {
+    
     init(_ linkedList: LinkedList<Element>) {
         head = linkedList.head!
         current = head
     }
+    
 }
-
