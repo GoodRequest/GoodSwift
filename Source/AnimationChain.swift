@@ -1,5 +1,5 @@
 //
-// Extensions.swift
+// AnimationChain.swift
 // GoodSwift
 //
 // Copyright (c) 2017 GoodRequest (https://goodrequest.com)
@@ -60,4 +60,5 @@ public class AnimationChain {
             completion?()
         }
     }
+ 
 }
