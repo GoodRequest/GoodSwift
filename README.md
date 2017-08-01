@@ -25,7 +25,7 @@ Some good swift extensions, handfully crafted by GoodRequest team.
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "GoodSwift"
+pod 'GoodSwift'
 ```
 
 ## Usage
@@ -93,7 +93,7 @@ You can choose logging level by setting `logLevel` static variable from `DataReq
 
 ### Chain animations
 
-**.good**swift allows you to easily chain UIView animations.
+`AnimationChain` allows you to easily chain UIView animations:
 
 ```swift
 UIView.animationChain.animate(withDuration: 2) {
@@ -107,7 +107,7 @@ UIView.animationChain.animate(withDuration: 2) {
 
 ### LinkedList implementation
 
-**.good**swift allows you to use default implementation of LinkedList (Queue, FIFO).
+**.good**swift allows you to use default implementation of `LinkedList` (Queue, FIFO).
 [Wiki](https://en.wikipedia.org/wiki/Linked_list)
 
 ```swift
@@ -134,6 +134,12 @@ print(queue.isEmpty)            // true
 ## Author
 
 Marek Spalek, marek.spalek@goodrequest.com
+
+## Contributors
+
+Pavol Kmet, pavol.kmet@goodrequest.com
+Tomas Gibas, tomas.gibas@goodrequest.com
+Dominik Petho, dominik.petho@goodrequest.com
 
 ## License
 
