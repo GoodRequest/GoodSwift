@@ -319,7 +319,7 @@ extension String {
     /// - parameter width: Constrained width of string
     /// - parameter font: Font used to calculate height
     /// - returns: Height of string
-    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+    public func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         
@@ -331,11 +331,36 @@ extension String {
     /// - parameter height: Constrained height of string
     /// - parameter font: Font used to calculate width
     /// - returns: Width of string
-    func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
+    public func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         
         return boundingBox.width
+    }
+}
+
+extension NSAttributedString {
+    
+    /// Returns height of attributed string with constraint width
+    ///
+    /// - parameter width: Constrained width of attributed string
+    /// - returns: Height of attributed string
+    public func height(withConstrainedWidth width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+        
+        return boundingBox.height
+    }
+    
+    /// Returns height of attributed string with constraint width
+    ///
+    /// - parameter width: Constrained width of attributed string
+    /// - returns: Height of attributed string
+    public func width(withConstraintedHeight height: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+        
+        return boundingBox.height
     }
 }
 
