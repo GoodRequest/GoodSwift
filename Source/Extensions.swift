@@ -271,7 +271,6 @@ extension UIView {
         return chain.animate(withDuration: withDuration, animation: animation)
     }
 
-    
 }
 
 extension UIStoryboard {
@@ -366,6 +365,7 @@ extension String {
     var localized: String {
         return NSLocalizedString(self, comment: "")
     }
+    
 }
 
 extension Array {
