@@ -409,7 +409,7 @@ extension UIView {
     /// View shadow color
     @IBInspectable public var shadowColor: UIColor {
         get {
-            return UIColor(cgColor: layer.shadowColor!)
+            return UIColor(cgColor: layer.shadowColor ?? UIColor.black.cgColor)
         } set {
             layer.shadowColor = newValue.cgColor
         }
