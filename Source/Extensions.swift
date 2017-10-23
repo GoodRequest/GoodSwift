@@ -277,7 +277,7 @@ extension UIStoryboard {
 
 extension UICollectionView {
     
-    /// Register supplementary view with specified class type.
+    /// Register reusable supplementary view with specified class type.
     public func register<T: UICollectionReusableView>(viewClass type: T.Type, forSupplementaryViewOfKind: String = UICollectionElementKindSectionHeader) {
         return register(UINib(nibName: String(describing: type), bundle: nil), forSupplementaryViewOfKind: forSupplementaryViewOfKind, withReuseIdentifier: String(describing: type))
     }
@@ -296,7 +296,12 @@ extension UICollectionView {
 
 extension UITableView {
     
-    /// Register header footer view with specified class type.
+    /// Register reusable cell with specified class type.
+    func registerCell<T: UITableViewCell>(fromClass type: T.Type)  {
+        register(UINib(nibName: String(describing: type), bundle: nil), forCellReuseIdentifier: String(describing: type))
+    }
+    
+    /// Register reusable header footer view with specified class type.
     public func registerHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) {
         register(UINib(nibName: String(describing: type), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: type))
     }
