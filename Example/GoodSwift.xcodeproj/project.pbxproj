@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7184C5EC1C245EC551F962E2 /* Pods_GoodSwiftTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDC19815F9BF3A83732D428 /* Pods_GoodSwiftTest.framework */; };
+		AEFCC6B91F9DCFB400069528 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFCC6B81F9DCFB400069528 /* FoundationExtensions.swift */; };
+		AEFCC6BB1F9DD03300069528 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFCC6BA1F9DD03300069528 /* UIKitExtensions.swift */; };
 		EAA53BEB1F03B2CE002B8442 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BE91F03B2CE002B8442 /* Page.swift */; };
 		EAA53BEC1F03B2CE002B8442 /* Revision.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BEA1F03B2CE002B8442 /* Revision.swift */; };
 		EABE84021F307ECF004593FD /* AnimationChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABE84001F307ECF004593FD /* AnimationChain.swift */; };
@@ -18,10 +20,12 @@
 /* Begin PBXFileReference section */
 		3E96AD87BE5592D8C2E70A76 /* Pods-GoodSwiftTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodSwiftTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest.release.xcconfig"; sourceTree = "<group>"; };
 		757E5D221A54E286BDB94D68 /* Pods-GoodSwiftTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodSwiftTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest.debug.xcconfig"; sourceTree = "<group>"; };
+		AEFCC6B81F9DCFB400069528 /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
+		AEFCC6BA1F9DD03300069528 /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		DCDC19815F9BF3A83732D428 /* Pods_GoodSwiftTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoodSwiftTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA53BE91F03B2CE002B8442 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		EAA53BEA1F03B2CE002B8442 /* Revision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Revision.swift; sourceTree = "<group>"; };
-		EAA53BEE1F03B3CF002B8442 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EAA53BEE1F03B3CF002B8442 /* AlamofireExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireExtensions.swift; sourceTree = "<group>"; };
 		EABE84001F307ECF004593FD /* AnimationChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationChain.swift; sourceTree = "<group>"; };
 		EABE84011F307ECF004593FD /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		EAD602CC1F0249C600AA67B6 /* GoodSwiftTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoodSwiftTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,7 +76,9 @@
 			children = (
 				EABE84001F307ECF004593FD /* AnimationChain.swift */,
 				EABE84011F307ECF004593FD /* LinkedList.swift */,
-				EAA53BEE1F03B3CF002B8442 /* Extensions.swift */,
+				EAA53BEE1F03B3CF002B8442 /* AlamofireExtensions.swift */,
+				AEFCC6B81F9DCFB400069528 /* FoundationExtensions.swift */,
+				AEFCC6BA1F9DD03300069528 /* UIKitExtensions.swift */,
 			);
 			name = Source;
 			path = ../Source;
@@ -227,8 +233,10 @@
 			files = (
 				EAA53BEC1F03B2CE002B8442 /* Revision.swift in Sources */,
 				EAD602D01F0249C600AA67B6 /* GoodSwiftTest.swift in Sources */,
+				AEFCC6B91F9DCFB400069528 /* FoundationExtensions.swift in Sources */,
 				EABE84031F307ECF004593FD /* LinkedList.swift in Sources */,
 				EABE84021F307ECF004593FD /* AnimationChain.swift in Sources */,
+				AEFCC6BB1F9DD03300069528 /* UIKitExtensions.swift in Sources */,
 				EAA53BEB1F03B2CE002B8442 /* Page.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
