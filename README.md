@@ -25,7 +25,7 @@ Some good swift extensions, handfully crafted by GoodRequest team.
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "GoodSwift"
+pod 'GoodSwift'
 ```
 
 ## Usage
@@ -91,9 +91,57 @@ You can choose logging level by setting `logLevel` static variable from `DataReq
 - info (default) - prints request url with response status and error when occurs
 - verbose - prints everything including request body and response object
 
+### Chain animations
+
+`AnimationChain` allows you to easily chain UIView animations:
+
+```swift
+UIView.animationChain.animate(withDuration: 2) {
+    view.alpha = 0.0
+}.animate(withDuration: 2) {
+    view.alpha = 1.0
+}.start {
+    debugPrint("Animation finished")
+}
+```
+
+### LinkedList implementation
+
+**.good**swift allows you to use default implementation of `LinkedList` (Queue, FIFO).
+[Wiki](https://en.wikipedia.org/wiki/Linked_list)
+
+```swift
+let queue = LinkedList<Int>()
+
+print(queue.isEmpty)            // true
+
+queue.push(1)                   // [1]
+queue.push(2)                   // [1, 2]
+queue.push(3)                   // [1, 2, 3]
+
+print(queue.contains(1))        // true
+print(queue.filter { $0 > 1 })  // [2, 3]
+print(queue.map { $0 + 2 })     // [3, 4, 5]
+print(queue.pop())              // Optional(1)
+print(queue.pop())              // Optional(2)
+print(queue.isEmpty)            // false
+print(queue.peak())             // Optional(3)
+print(queue.pop())              // Optional(3)
+print(queue.isEmpty)            // true
+```
+
+
 ## Author
 
 Marek Spalek, marek.spalek@goodrequest.com
+
+## Contributors
+
+Pavol Kmet, pavol.kmet@goodrequest.com
+
+Tomas Gibas, tomas.gibas@goodrequest.com
+
+Dominik Petho, dominik.petho@goodrequest.com
 
 ## License
 

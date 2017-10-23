@@ -10,6 +10,8 @@
 		7184C5EC1C245EC551F962E2 /* Pods_GoodSwiftTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDC19815F9BF3A83732D428 /* Pods_GoodSwiftTest.framework */; };
 		EAA53BEB1F03B2CE002B8442 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BE91F03B2CE002B8442 /* Page.swift */; };
 		EAA53BEC1F03B2CE002B8442 /* Revision.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BEA1F03B2CE002B8442 /* Revision.swift */; };
+		EABE84021F307ECF004593FD /* AnimationChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABE84001F307ECF004593FD /* AnimationChain.swift */; };
+		EABE84031F307ECF004593FD /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABE84011F307ECF004593FD /* LinkedList.swift */; };
 		EAD602D01F0249C600AA67B6 /* GoodSwiftTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD602CF1F0249C600AA67B6 /* GoodSwiftTest.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,6 +22,8 @@
 		EAA53BE91F03B2CE002B8442 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		EAA53BEA1F03B2CE002B8442 /* Revision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Revision.swift; sourceTree = "<group>"; };
 		EAA53BEE1F03B3CF002B8442 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EABE84001F307ECF004593FD /* AnimationChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationChain.swift; sourceTree = "<group>"; };
+		EABE84011F307ECF004593FD /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		EAD602CC1F0249C600AA67B6 /* GoodSwiftTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoodSwiftTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD602CF1F0249C600AA67B6 /* GoodSwiftTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodSwiftTest.swift; sourceTree = "<group>"; };
 		EAD602D11F0249C600AA67B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 		EAA53BED1F03B3CF002B8442 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				EABE84001F307ECF004593FD /* AnimationChain.swift */,
+				EABE84011F307ECF004593FD /* LinkedList.swift */,
 				EAA53BEE1F03B3CF002B8442 /* Extensions.swift */,
 			);
 			name = Source;
@@ -221,6 +227,8 @@
 			files = (
 				EAA53BEC1F03B2CE002B8442 /* Revision.swift in Sources */,
 				EAD602D01F0249C600AA67B6 /* GoodSwiftTest.swift in Sources */,
+				EABE84031F307ECF004593FD /* LinkedList.swift in Sources */,
+				EABE84021F307ECF004593FD /* AnimationChain.swift in Sources */,
 				EAA53BEB1F03B2CE002B8442 /* Page.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

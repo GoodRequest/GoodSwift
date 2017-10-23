@@ -33,8 +33,8 @@ import Unbox
 /// verbose - prints everything including request body and response object
 public enum GoodSwiftLogLevel {
     case    error,
-            info,
-            verbose
+    info,
+    verbose
 }
 
 /// Functions for printing in each log level.
@@ -198,217 +198,6 @@ public struct GoodSwiftError: Error, CustomStringConvertible {
 
 extension UIView {
     
-    public enum Rotate {
-        
-        case by0, by90, by180, by270
-        
-        var rotationValue: Double {
-            switch self {
-            case .by0:
-                return 0.0
-            case .by90:
-                return .pi / 2
-            case .by180:
-                return .pi
-            case .by270:
-                return .pi + .pi / 2
-            }
-        }
-        
-    }
-    
-    /// Rotates the view by specified angle.
-    public func rotate(_ rotateBy: Rotate) {
-        let superviewOfView = superview != nil ? superview! : self
-        
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: .beginFromCurrentState, animations: {
-            self.transform = CGAffineTransform(rotationAngle: CGFloat(rotateBy.rotationValue))
-            superviewOfView.layoutIfNeeded()
-        }, completion: nil)
-    }
-    
-}
-
-extension UIStoryboard {
-    
-    /// Creates an instance of storyboard with specified class type.
-    ///
-    /// - returns: The new `Type` instance.
-    public func instantiateViewController<T: UIViewController>(withClass clas: T.Type) -> T? {
-        return instantiateViewController(withIdentifier: String(describing: clas)) as? T
-    }
-    
-}
-
-extension UICollectionView {
-    
-    /// Register supplementary view with specified class type.
-    public func register<T: UICollectionReusableView>(viewClass type: T.Type, forSupplementaryViewOfKind: String = UICollectionElementKindSectionHeader) {
-        return register(UINib(nibName: String(describing: type), bundle: nil), forSupplementaryViewOfKind: forSupplementaryViewOfKind, withReuseIdentifier: String(describing: type))
-    }
-    
-    /// Dequeue reusable supplementary view with specified class type.
-    public func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind kind: String, fromClass type: T.Type, for indexPath: IndexPath) -> T {
-        return dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: type), for: indexPath) as! T
-    }
-    
-    /// Dequeue reusable cell with specified class type.
-    public func dequeueReusableCell<T: UICollectionViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T {
-        return dequeueReusableCell(withReuseIdentifier: String(describing: type), for: indexPath) as! T
-    }
-    
-}
-
-extension UITableView {
-    
-    /// Register header footer view with specified class type.
-    public func registerHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) {
-        register(UINib(nibName: String(describing: type), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: type))
-    }
-    
-    /// Dequeue reusable header footer view with specified class type.
-    public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) -> T? {
-        return dequeueReusableHeaderFooterView(withIdentifier: String(describing: type)) as? T
-    }
-    
-    /// Dequeue reusable cell with specified class type.
-    public func dequeueReusableCell<T: UITableViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T? {
-        return dequeueReusableCell(withIdentifier: String(describing: type), for: indexPath) as? T
-    }
-    
-}
-
-extension UIColor {
-    
-    /// Creates an instance with specified RGBA values.
-    ///
-    /// - returns: The new `UIColor` instance.
-    public class func color(rgb: Int, a: CGFloat = 1.0) -> UIColor {
-        return UIColor.color(r: rgb, g: rgb, b: rgb, a: a)
-    }
-    
-    /// Creates an instance with specified RGBA values.
-    ///
-    /// - returns: The new `UIColor` instance.
-    public class func color(r: Int, g: Int, b: Int, a: CGFloat = 1.0) -> UIColor {
-        return UIColor(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: a)
-    }
-    
-}
-
-// MARK: - Foundation
-
-extension String {
-    
-    /// Returns localized String with given arguments.
-    ///
-    /// - returns: A localized String.
-    public init(localized: String, arguments: CVarArg...) {
-        self.init(format: NSLocalizedString(localized, comment: ""), arguments: arguments)
-    }
-    
-    /// Returns localized String.
-    ///
-    /// - returns: A localized String.
-    public init(localized: String) {
-        self = NSLocalizedString(localized, comment: "")
-    }
-    
-    /// Returns height of string with constraint width
-    ///
-    /// - parameter width: Constrained width of string
-    /// - parameter font: Font used to calculate height
-    /// - returns: Height of string
-    public func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
-        
-        return boundingBox.height
-    }
-    
-    /// Returns width of string with constraint height
-    ///
-    /// - parameter height: Constrained height of string
-    /// - parameter font: Font used to calculate width
-    /// - returns: Width of string
-    public func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
-        
-        return boundingBox.width
-    }
-}
-
-extension NSAttributedString {
-    
-    /// Returns height of attributed string with constraint width
-    ///
-    /// - parameter width: Constrained width of attributed string
-    /// - returns: Height of attributed string
-    public func height(withConstrainedWidth width: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-        
-        return boundingBox.height
-    }
-    
-    /// Returns height of attributed string with constraint width
-    ///
-    /// - parameter width: Constrained width of attributed string
-    /// - returns: Height of attributed string
-    public func width(withConstraintedHeight height: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-        
-        return boundingBox.height
-    }
-}
-
-extension Array {
-    
-    /// Returns random item from array or nil if the array is empty.
-    ///
-    /// - returns: An Element or nil.
-    public func randomItem() -> Element? {
-        guard count > 0 else { return nil }
-        return self[Int(arc4random_uniform(UInt32(count)))]
-    }
-    
-    /// Returns true if array contains item with specified index, otherwise returns false.
-    ///
-    /// - returns: true or false whether the array contains specified index.
-    public func contains(index: Int) -> Bool {
-        return (startIndex..<endIndex).contains(index)
-    }
-    
-}
-
-extension DispatchQueue {
-    
-    /// Asyncs after closure
-    ///
-    /// - parameter seconds: Time to dispatch after in seconds
-    /// - parameter handler: Closure to execute after given time
-    public func asyncAfter(seconds: TimeInterval, handler: @escaping () -> Void) {
-        let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(Int(Double(seconds * 1000)))
-        asyncAfter(deadline: deadline, execute: handler)
-    }
-}
-
-extension Sequence where Iterator.Element == String? {
-    
-    /// Joins sequence of strings into one string with given separator
-    ///
-    /// - parameter separator: Separator between each two elements in sequence
-    public func joined(withSeparator separator: String) -> String {
-        return filter { $0 != nil && $0!.characters.count > 0 }
-            .map { $0! }
-            .joined(separator: separator)
-    }
-}
-
-extension UIView {
-    
     /// View corner radius. Don't forget to set clipsToBounds = true
     @IBInspectable public var cornerRadius: CGFloat {
         get {
@@ -491,6 +280,228 @@ extension UIView {
         animation.toValue = NSValue(cgPoint: CGPoint(x: center.x + offset, y: center.y))
         layer.add(animation, forKey: "position")
     }
+    
+    public enum Rotate {
+        
+        case by0, by90, by180, by270
+        
+        var rotationValue: Double {
+            switch self {
+            case .by0:
+                return 0.0
+            case .by90:
+                return .pi / 2
+            case .by180:
+                return .pi
+            case .by270:
+                return .pi + .pi / 2
+            }
+        }
+        
+    }
+    
+    /// Rotates the view by specified angle.
+    public func rotate(_ rotateBy: Rotate) {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: .beginFromCurrentState, animations: {
+            self.transform = CGAffineTransform(rotationAngle: CGFloat(rotateBy.rotationValue))
+        }, completion: nil)
+    }
+    
+}
+
+extension UIStoryboard {
+    
+    /// Creates an instance of storyboard with specified class type.
+    ///
+    /// - returns: The new `Type` instance.
+    public func instantiateViewController<T: UIViewController>(withClass clas: T.Type) -> T? {
+        return instantiateViewController(withIdentifier: String(describing: clas)) as? T
+    }
+    
+}
+
+extension UICollectionView {
+    
+    /// Register reusable supplementary view with specified class type.
+    public func register<T: UICollectionReusableView>(viewClass type: T.Type, forSupplementaryViewOfKind: String = UICollectionElementKindSectionHeader) {
+        return register(UINib(nibName: String(describing: type), bundle: nil), forSupplementaryViewOfKind: forSupplementaryViewOfKind, withReuseIdentifier: String(describing: type))
+    }
+    
+    /// Dequeue reusable supplementary view with specified class type.
+    public func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind kind: String, fromClass type: T.Type, for indexPath: IndexPath) -> T {
+        return dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: type), for: indexPath) as! T
+    }
+    
+    /// Dequeue reusable cell with specified class type.
+    public func dequeueReusableCell<T: UICollectionViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T {
+        return dequeueReusableCell(withReuseIdentifier: String(describing: type), for: indexPath) as! T
+    }
+    
+}
+
+extension UITableView {
+    
+    /// Register reusable cell with specified class type.
+    public func registerCell<T: UITableViewCell>(fromClass type: T.Type)  {
+        register(UINib(nibName: String(describing: type), bundle: nil), forCellReuseIdentifier: String(describing: type))
+    }
+    
+    /// Register reusable header footer view with specified class type.
+    public func registerHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) {
+        register(UINib(nibName: String(describing: type), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: type))
+    }
+    
+    /// Dequeue reusable header footer view with specified class type.
+    public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(fromClass type: T.Type) -> T? {
+        return dequeueReusableHeaderFooterView(withIdentifier: String(describing: type)) as? T
+    }
+    
+    /// Dequeue reusable cell with specified class type.
+    public func dequeueReusableCell<T: UITableViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T? {
+        return dequeueReusableCell(withIdentifier: String(describing: type), for: indexPath) as? T
+    }
+    
+}
+
+extension UIColor {
+    
+    /// Creates an instance with specified RGBA values.
+    ///
+    /// - returns: The new `UIColor` instance.
+    public class func color(rgb: Int, a: CGFloat = 1.0) -> UIColor {
+        return UIColor.color(r: rgb, g: rgb, b: rgb, a: a)
+    }
+    
+    /// Creates an instance with specified RGBA values.
+    ///
+    /// - returns: The new `UIColor` instance.
+    public class func color(r: Int, g: Int, b: Int, a: CGFloat = 1.0) -> UIColor {
+        return UIColor(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: a)
+    }
+    
+}
+
+// MARK: - Foundation
+
+extension String {
+    
+    /// Returns localized String with given arguments.
+    ///
+    /// - returns: A localized String.
+    public init(localized: String, arguments: CVarArg...) {
+        self.init(format: NSLocalizedString(localized, comment: ""), arguments: arguments)
+    }
+    
+    /// Returns localized String.
+    ///
+    /// - returns: A localized String.
+    public init(localized: String) {
+        self = NSLocalizedString(localized, comment: "")
+    }
+    
+    /// Return localized String from current string.
+    /// - returns: A localized String.
+    ///Usage: "someString".localized
+    
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
+    }
+    
+    /// Returns height of string with constraint width
+    ///
+    /// - parameter width: Constrained width of string
+    /// - parameter font: Font used to calculate height
+    /// - returns: Height of string
+    public func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        
+        return boundingBox.height
+    }
+    
+    /// Returns width of string with constraint height
+    ///
+    /// - parameter height: Constrained height of string
+    /// - parameter font: Font used to calculate width
+    /// - returns: Width of string
+    public func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        
+        return boundingBox.width
+    }
+    
+}
+
+extension NSAttributedString {
+    
+    /// Returns height of attributed string with constraint width
+    ///
+    /// - parameter width: Constrained width of attributed string
+    /// - returns: Height of attributed string
+    public func height(withConstrainedWidth width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+        
+        return boundingBox.height
+    }
+    
+    /// Returns height of attributed string with constraint width
+    ///
+    /// - parameter width: Constrained width of attributed string
+    /// - returns: Height of attributed string
+    public func width(withConstraintedHeight height: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+        
+        return boundingBox.height
+    }
+    
+}
+
+extension Array {
+    
+    /// Returns random item from array or nil if the array is empty.
+    ///
+    /// - returns: An Element or nil.
+    public func randomItem() -> Element? {
+        guard count > 0 else { return nil }
+        return self[Int(arc4random_uniform(UInt32(count)))]
+    }
+    
+    /// Returns true if array contains item with specified index, otherwise returns false.
+    ///
+    /// - returns: true or false whether the array contains specified index.
+    public func contains(index: Int) -> Bool {
+        return (startIndex..<endIndex).contains(index)
+    }
+    
+}
+
+extension DispatchQueue {
+    
+    /// Asyncs after closure
+    ///
+    /// - parameter seconds: Time to dispatch after in seconds
+    /// - parameter handler: Closure to execute after given time
+    public func asyncAfter(seconds: TimeInterval, handler: @escaping () -> Void) {
+        let deadline = DispatchTime.now() + DispatchTimeInterval.milliseconds(Int(Double(seconds * 1000)))
+        asyncAfter(deadline: deadline, execute: handler)
+    }
+    
+}
+
+extension Sequence where Iterator.Element == String? {
+    
+    /// Joins sequence of strings into one string with given separator
+    ///
+    /// - parameter separator: Separator between each two elements in sequence
+    public func joined(withSeparator separator: String) -> String {
+        return filter { $0 != nil && $0!.characters.count > 0 }
+            .map { $0! }
+            .joined(separator: separator)
+    }
+    
 }
 
 extension DateFormatter {
@@ -500,5 +511,5 @@ extension DateFormatter {
         self.init()
         dateFormat = format
     }
+    
 }
-
