@@ -33,8 +33,8 @@ import Unbox
 /// verbose - prints everything including request body and response object
 public enum GoodSwiftLogLevel {
     case    error,
-            info,
-            verbose
+    info,
+    verbose
 }
 
 /// Functions for printing in each log level.
@@ -225,6 +225,51 @@ extension UIView {
         }
     }
     
+    /// View's layer masks to bounds
+    @IBInspectable public var masksToBounds: Bool {
+        get {
+            return layer.masksToBounds
+        } set {
+            layer.masksToBounds = newValue
+        }
+    }
+    
+    /// View shadow opacity
+    @IBInspectable public var shadowOpacity: Float {
+        get {
+            return layer.shadowOpacity
+        } set {
+            layer.shadowOpacity = newValue
+        }
+    }
+    
+    /// View shadow color
+    @IBInspectable public var shadowColor: UIColor {
+        get {
+            return UIColor(cgColor: layer.shadowColor ?? UIColor.black.cgColor)
+        } set {
+            layer.shadowColor = newValue.cgColor
+        }
+    }
+    
+    /// View shadow radius
+    @IBInspectable public var shadowRadius: CGFloat {
+        get {
+            return layer.shadowRadius
+        } set {
+            layer.shadowRadius = newValue
+        }
+    }
+    
+    /// View shadow offset
+    @IBInspectable public var shadowOffset: CGSize {
+        get {
+            return layer.shadowOffset
+        } set {
+            layer.shadowOffset = newValue
+        }
+    }
+    
     /// Animates shake with view
     public func shakeView(duration: CFTimeInterval = 0.02, repeatCount: Float = 8.0, offset: CGFloat = 5.0) {
         let animation = CABasicAnimation(keyPath: "position")
@@ -261,7 +306,7 @@ extension UIView {
             self.transform = CGAffineTransform(rotationAngle: CGFloat(rotateBy.rotationValue))
         }, completion: nil)
     }
-
+    
 }
 
 extension UIStoryboard {
@@ -297,7 +342,7 @@ extension UICollectionView {
 extension UITableView {
     
     /// Register reusable cell with specified class type.
-    func registerCell<T: UITableViewCell>(fromClass type: T.Type)  {
+    public func registerCell<T: UITableViewCell>(fromClass type: T.Type)  {
         register(UINib(nibName: String(describing: type), bundle: nil), forCellReuseIdentifier: String(describing: type))
     }
     
@@ -362,6 +407,56 @@ extension String {
         return NSLocalizedString(self, comment: "")
     }
     
+    /// Returns height of string with constraint width
+    ///
+    /// - parameter width: Constrained width of string
+    /// - parameter font: Font used to calculate height
+    /// - returns: Height of string
+    public func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        
+        return boundingBox.height
+    }
+    
+    /// Returns width of string with constraint height
+    ///
+    /// - parameter height: Constrained height of string
+    /// - parameter font: Font used to calculate width
+    /// - returns: Width of string
+    public func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        
+        return boundingBox.width
+    }
+    
+}
+
+extension NSAttributedString {
+    
+    /// Returns height of attributed string with constraint width
+    ///
+    /// - parameter width: Constrained width of attributed string
+    /// - returns: Height of attributed string
+    public func height(withConstrainedWidth width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+        
+        return boundingBox.height
+    }
+    
+    /// Returns height of attributed string with constraint width
+    ///
+    /// - parameter width: Constrained width of attributed string
+    /// - returns: Height of attributed string
+    public func width(withConstraintedHeight height: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+        
+        return boundingBox.height
+    }
+    
 }
 
 extension Array {
@@ -405,6 +500,16 @@ extension Sequence where Iterator.Element == String? {
         return filter { $0 != nil && $0!.characters.count > 0 }
             .map { $0! }
             .joined(separator: separator)
+    }
+    
+}
+
+extension DateFormatter {
+    
+    /// Convenience initializer for date with format
+    public convenience init(format: String) {
+        self.init()
+        dateFormat = format
     }
     
 }
