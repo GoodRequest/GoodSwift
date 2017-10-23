@@ -1,4 +1,4 @@
-![.goodswift](https://www.dropbox.com/s/n7scwrla13ym870/goodswift.png?dl=1)
+![.goodswift](https://www.dropbox.com/s/xwxkuc7k4w1df8v/goodswift.png?dl=1)
 
 
 [![Version](https://img.shields.io/cocoapods/v/GoodSwift.svg?style=flat)](http://cocoapods.org/pods/GoodSwift)
