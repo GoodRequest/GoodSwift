@@ -1,3 +1,19 @@
+## [0.8.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.8.0)
+Released on 2017-10-23.
+
+#### Added
+- Support for registering reusable cell with specified class type.
+- UIView shadow inspectable attributes.
+- Height and width calculation for string and attributed string.
+- DateFormatter format initializer.
+
+#### Updated
+- Extensions distributed across multiple files.
+- Project updated for Xcode 9.
+
+#### Fixed
+- Improved unboxing error handling.
+
 ## [0.7.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.7.0)
 Released on 2017-08-01.
 
