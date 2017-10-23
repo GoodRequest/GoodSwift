@@ -150,9 +150,14 @@ extension UIStoryboard {
 
 extension UICollectionView {
     
+    /// Register reusable cell with specified class type.
+    public func registerCell<T: UICollectionViewCell>(fromClass type: T.Type)  {
+        register(UINib(nibName: String(describing: type), bundle: nil), forCellWithReuseIdentifier: String(describing: type))
+    }
+    
     /// Register reusable supplementary view with specified class type.
     public func register<T: UICollectionReusableView>(viewClass type: T.Type, forSupplementaryViewOfKind: String = UICollectionElementKindSectionHeader) {
-        return register(UINib(nibName: String(describing: type), bundle: nil), forSupplementaryViewOfKind: forSupplementaryViewOfKind, withReuseIdentifier: String(describing: type))
+        register(UINib(nibName: String(describing: type), bundle: nil), forSupplementaryViewOfKind: forSupplementaryViewOfKind, withReuseIdentifier: String(describing: type))
     }
     
     /// Dequeue reusable supplementary view with specified class type.
