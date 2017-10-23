@@ -113,30 +113,32 @@ extension DataRequest {
     @discardableResult
     public func unboxArray<T: Unboxable>(keyPath: String? = nil, allowInvalidElements: Bool = false, completion: @escaping (DataResponse<[T]>) -> Void) -> Self {
         log()
-        
         return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
-                do {
-                    var array: [T]?
-                    if let keyPath = keyPath, let dictionary = value as? UnboxableDictionary {
-                        array = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath, allowInvalidElements: allowInvalidElements)
-                    } else if let dictionaries = value as? [UnboxableDictionary] {
-                        array = try Unbox.unbox(dictionaries: dictionaries, allowInvalidElements: allowInvalidElements)
-                    }
-                    if let array = array {
-                        completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.success(array)))
-                    } else {
-                        let error = GoodSwiftError(description: "‼️ Error while unboxing [\(T.self)]")
+                if let httpResponse = response.response {
+                    switch httpResponse.statusCode {
+                    case 200 ..< 300:
+                        do {
+                            let array = try unboxItems(value, atKeyPath: keyPath, allowInvalidElements: allowInvalidElements) as [T]
+                            completion(response.response(withValue: array))
+                        } catch let error {
+                            logError("‼️ Error while unboxing [\(T.self)]\n\(error)")
+                            completion(response.response(withError: error))
+                        }
+                    default:
+                        let error = GoodSwiftError(description: "‼️ Status code error \(httpResponse.statusCode)")
                         logError(error.description)
-                        completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
+                        completion(response.response(withError: error))
                     }
-                } catch let error {
-                    logError("‼️ Error while unboxing [\(T.self)]\n\(error)")
-                    completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
+                } else {
+                    let error = GoodSwiftError(description: "‼️ Error while unboxing [\(T.self)]")
+                    logError(error.description)
+                    completion(response.response(withError: error))
                 }
             case .failure(let error):
-                completion(DataResponse<[T]>(request: response.request, response: response.response, data: response.data, result: Result<[T]>.failure(error)))
+                logError(error.localizedDescription)
+                completion(response.response(withError: error))
             }
         })
     }
@@ -150,36 +152,80 @@ extension DataRequest {
     @discardableResult
     public func unbox<T: Unboxable>(keyPath: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
         log()
-        
         return responseJSON(completionHandler: { (response: DataResponse<Any>) in
             switch response.result {
             case .success(let value):
-                do {
-                    var item: T?
-                    if let dictionary = value as? UnboxableDictionary {
-                        if let keyPath = keyPath {
-                            item = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath) as T
-                        } else {
-                            item = try Unbox.unbox(dictionary: dictionary) as T
+                if let httpResponse = response.response {
+                    switch httpResponse.statusCode {
+                    case 200 ..< 300:
+                        do {
+                            let item = try unboxItem(value, atKeyPath: keyPath) as T
+                            completion(response.response(withValue: item))
+                        } catch let error {
+                            logError("‼️ Error while unboxing \(T.self)\n\(error)")
+                            completion(response.response(withError: error))
                         }
-                    }
-                    if let item = item {
-                        completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.success(item)))
-                    } else {
-                        let error = GoodSwiftError(description: "‼️ Error while unboxing \(T.self)")
+                    default:
+                        let error = GoodSwiftError(description: "‼️ Status code error \(httpResponse.statusCode)")
                         logError(error.description)
-                        completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
+                        completion(response.response(withError: error))
                     }
-                } catch let error {
-                    logError("‼️ Error while unboxing \(T.self)\n\(error)")
-                    completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
+                } else {
+                    let error = GoodSwiftError(description: "‼️ Error while unboxing \(T.self)")
+                    logError(error.description)
+                    completion(response.response(withError: error))
                 }
             case .failure(let error):
-                completion(DataResponse<T>(request: response.request, response: response.response, data: response.data, result: Result<T>.failure(error)))
+                logError(error.localizedDescription)
+                completion(response.response(withError: error))
             }
         })
     }
     
+}
+
+// MARK: - Private
+
+extension DataResponse {
+    
+    func response<T>(withValue value: T) -> DataResponse<T> {
+        return DataResponse<T>(request: request, response: response, data: data, result: Result<T>.success(value))
+    }
+    
+    func response<T>(withError error: Error) -> DataResponse<T> {
+        return DataResponse<T>(request: request, response: response, data: data, result: Result<T>.failure(error))
+    }
+    
+}
+
+func unboxItem<T: Unboxable>(_ value: Any, atKeyPath keyPath: String? = nil) throws -> T {
+    var item: T?
+    if let dictionary = value as? UnboxableDictionary {
+        if let keyPath = keyPath {
+            item = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath) as T
+        } else {
+            item = try Unbox.unbox(dictionary: dictionary) as T
+        }
+    }
+    if let item = item {
+        return item
+    } else {
+        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not unboxable.")
+    }
+}
+
+func unboxItems<T: Unboxable>(_ value: Any, atKeyPath keyPath: String? = nil, allowInvalidElements: Bool = false) throws -> [T] {
+    var array: [T]?
+    if let keyPath = keyPath, let dictionary = value as? UnboxableDictionary {
+        array = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath, allowInvalidElements: allowInvalidElements)
+    } else if let dictionaries = value as? [UnboxableDictionary] {
+        array = try Unbox.unbox(dictionaries: dictionaries, allowInvalidElements: allowInvalidElements)
+    }
+    if let array = array {
+        return array
+    } else {
+        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not unboxable.")
+    }
 }
 
 // MARK: - Error

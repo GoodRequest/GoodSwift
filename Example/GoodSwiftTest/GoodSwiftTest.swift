@@ -13,8 +13,9 @@ import GoodSwift
 let timeout: TimeInterval = 10
 
 enum Endpoint {
-    static let revision = "https://en.wikipedia.org/api/rest_v1/page/revision/"
+    static let summary = "https://en.wikipedia.org/api/rest_v1/page/summary/Swift"
     static let relatedPages = "https://en.wikipedia.org/api/rest_v1/page/related/Swift"
+    static let notFound = "https://en.wikipedia.org/api/rest_v1/notFound"
 }
 
 class GoodSwiftTest: XCTestCase {
@@ -35,10 +36,10 @@ class GoodSwiftTest: XCTestCase {
         }
     }
     
-    func testRevision() {
-        let exp = expectation(description: "Revision expectation")
+    func testSummary() {
+        let exp = expectation(description: "Summary expectation")
         
-        Alamofire.request(Endpoint.revision).unbox { (response: DataResponse<Revision>) in
+        Alamofire.request(Endpoint.summary).unbox() { (response: DataResponse<Page>) in
             self.evaluate(expectation: exp, result: response.result)
         }
         waitForExpectations(timeout: timeout, handler: nil)
@@ -49,6 +50,44 @@ class GoodSwiftTest: XCTestCase {
         
         Alamofire.request(Endpoint.relatedPages).unboxArray(keyPath: "pages") { (response: DataResponse<[Page]>) in
             self.evaluate(expectation: exp, result: response.result)
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testWrongKeyPath() {
+        let exp = expectation(description: "Wrong key path expectation")
+        
+        Alamofire.request(Endpoint.relatedPages).unboxArray(keyPath: nil) { (response: DataResponse<[Page]>) in
+            switch response.result {
+            case .success(let value):
+                print(value)
+                XCTFail()
+            case .failure(let error):
+                if error is GoodSwiftError {
+                    exp.fulfill()
+                } else {
+                    XCTFail(error.localizedDescription)
+                }
+            }
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+    
+    func testNotFound() {
+        let exp = expectation(description: "Not found (404) expectation")
+        
+        Alamofire.request(Endpoint.notFound).unbox { (response: DataResponse<Revision>) in
+            switch response.result {
+            case .success(let value):
+                print(value)
+                XCTFail()
+            case .failure(let error):
+                if response.response?.statusCode == 404 {
+                    exp.fulfill()
+                } else {
+                    XCTFail(error.localizedDescription)
+                }
+            }
         }
         waitForExpectations(timeout: timeout, handler: nil)
     }
