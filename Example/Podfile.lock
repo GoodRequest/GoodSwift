@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.5.0)
+  - Alamofire (4.5.1)
   - GoodSwift (0.8.0):
     - Alamofire (~> 4.5)
     - Unbox (~> 2.5)
@@ -13,7 +13,7 @@ EXTERNAL SOURCES:
     :path: ../GoodSwift.podspec
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   GoodSwift: 94d889b9407a5ee56e7a6cafc7e4f420444e0ff4
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
 

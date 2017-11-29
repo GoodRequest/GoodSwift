@@ -56,7 +56,7 @@ extension String {
     /// - returns: Height of string
     public func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
         
         return boundingBox.height
     }
@@ -68,7 +68,7 @@ extension String {
     /// - returns: Width of string
     public func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
         
         return boundingBox.width
     }
@@ -139,7 +139,7 @@ extension Sequence where Iterator.Element == String? {
     ///
     /// - parameter separator: Separator between each two elements in sequence
     public func joined(withSeparator separator: String) -> String {
-        return filter { $0 != nil && $0!.characters.count > 0 }
+        return filter { $0 != nil && $0!.count > 0 }
             .map { $0! }
             .joined(separator: separator)
     }

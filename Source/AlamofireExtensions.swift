@@ -78,7 +78,7 @@ extension DataRequest {
                         logError("🚀 \(method) \(url)")
                     }
                 }
-                if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.characters.count > 0 {
+                if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.count > 0 {
                     logVerbose("📦 \(string)")
                 }
                 if let response = response.response {
@@ -90,7 +90,7 @@ extension DataRequest {
                         break
                     }
                 }
-                if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.characters.count > 0 {
+                if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.count > 0 {
                     logVerbose("📦 \(string)")
                 }
                 if let error = response.error as NSError? {
