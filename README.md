@@ -16,8 +16,8 @@ Some good swift extensions, handfully crafted by GoodRequest team.
 ## Requirements
 
 - iOS 9.0+
-- Xcode 8.2+
-- Swift 3.0+
+- Xcode 9.0+
+- Swift 4.0+ (for Swift 3 use version 0.8.0)
 
 ## Installation
 

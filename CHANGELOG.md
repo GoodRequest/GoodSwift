@@ -1,3 +1,9 @@
+## [0.9.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.9.0)
+Released on 2017-11-29.
+
+#### Added
+- Swift 4 support (for Swift 3 use version 0.8.0)
+
 ## [0.8.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.8.0)
 Released on 2017-10-23.
 
