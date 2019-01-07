@@ -170,6 +170,24 @@ extension UICollectionView {
         return dequeueReusableCell(withReuseIdentifier: String(describing: type), for: indexPath) as! T
     }
     
+    /// Deselect first selected item along UIViewController`s transition coordinator.
+    func deselectSelectedItem(along transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+        guard let selectedIndexPath = indexPathsForSelectedItems?.first else { return }
+        
+        guard let coordinator = transitionCoordinator else {
+            deselectItem(at: selectedIndexPath, animated: false)
+            return
+        }
+        
+        coordinator.animate(alongsideTransition: { _ in
+            self.deselectItem(at: selectedIndexPath, animated: true)
+        }) { [weak self] (context) in
+            if context.isCancelled {
+                self?.selectItem(at: selectedIndexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition(rawValue: 0))
+            }
+        }
+    }
+    
 }
 
 extension UITableView {
@@ -192,6 +210,24 @@ extension UITableView {
     /// Dequeue reusable cell with specified class type.
     public func dequeueReusableCell<T: UITableViewCell>(fromClass type: T.Type, for indexPath: IndexPath) -> T? {
         return dequeueReusableCell(withIdentifier: String(describing: type), for: indexPath) as? T
+    }
+    
+    /// Deselect selected row along UIViewController`s transition coordinator.
+    func deselectSelectedRow(along transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+        guard let selectedIndexPath = indexPathForSelectedRow else { return }
+        
+        guard let coordinator = transitionCoordinator else {
+            deselectRow(at: selectedIndexPath, animated: false)
+            return
+        }
+        
+        coordinator.animate(alongsideTransition: { _ in
+            self.deselectRow(at: selectedIndexPath, animated: true)
+        }) { [weak self] (context) in
+            if context.isCancelled {
+                self?.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+            }
+        }
     }
     
 }
