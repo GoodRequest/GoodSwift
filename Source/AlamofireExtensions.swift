@@ -61,7 +61,7 @@ private func logVerbose(_ text: String) {
 
 extension DataRequest {
     
-    open static var logLevel = GoodSwiftLogLevel.info
+    public static var logLevel = GoodSwiftLogLevel.info
     
     /// Prints request and response information.
     ///
