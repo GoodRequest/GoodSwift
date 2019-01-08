@@ -1,9 +1,15 @@
+## [0.9.2](https://github.com/GoodRequest/GoodSwift/releases/tag/0.9.2)
+Released on 2019-01-08.
+
+#### Fixed
+- Deselection functions made public.
+
 ## [0.9.1](https://github.com/GoodRequest/GoodSwift/releases/tag/0.9.1)
 Released on 2019-01-08.
 
 #### Added
 - Swift 4.2 support (for Swift 4.0 use version 0.9.0)
-- Deselecting along transition coordinator
+- Deselecting along transition coordinator.
 
 ## [0.9.0](https://github.com/GoodRequest/GoodSwift/releases/tag/0.9.0)
 Released on 2017-11-29.
