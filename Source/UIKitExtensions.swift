@@ -171,7 +171,7 @@ extension UICollectionView {
     }
     
     /// Deselect first selected item along UIViewController`s transition coordinator.
-    func deselectSelectedItem(along transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+    public func deselectSelectedItem(along transitionCoordinator: UIViewControllerTransitionCoordinator?) {
         guard let selectedIndexPath = indexPathsForSelectedItems?.first else { return }
         
         guard let coordinator = transitionCoordinator else {
@@ -213,7 +213,7 @@ extension UITableView {
     }
     
     /// Deselect selected row along UIViewController`s transition coordinator.
-    func deselectSelectedRow(along transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+    public func deselectSelectedRow(along transitionCoordinator: UIViewControllerTransitionCoordinator?) {
         guard let selectedIndexPath = indexPathForSelectedRow else { return }
         
         guard let coordinator = transitionCoordinator else {
