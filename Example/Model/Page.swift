@@ -13,7 +13,7 @@ struct Page {
     let id: Int
     let title: String
     let extract: String
-    let thumbnail: Image
+    let thumbnail: Image?
     
 }
 
@@ -23,7 +23,7 @@ extension Page: Unboxable {
         self.id         = try unboxer.unbox(key : "pageid")
         self.title      = try unboxer.unbox(key : "title")
         self.extract    = try unboxer.unbox(key : "extract")
-        self.thumbnail  = try unboxer.unbox(key : "thumbnail")
+        self.thumbnail  = unboxer.unbox(key : "thumbnail")
     }
     
 }
