@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7184C5EC1C245EC551F962E2 /* Pods_GoodSwiftTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDC19815F9BF3A83732D428 /* Pods_GoodSwiftTest.framework */; };
 		AEFCC6B91F9DCFB400069528 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFCC6B81F9DCFB400069528 /* FoundationExtensions.swift */; };
-		AEFCC6BB1F9DD03300069528 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFCC6BA1F9DD03300069528 /* UIKitExtensions.swift */; };
 		EAA53BEB1F03B2CE002B8442 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BE91F03B2CE002B8442 /* Page.swift */; };
 		EAA53BEC1F03B2CE002B8442 /* Revision.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BEA1F03B2CE002B8442 /* Revision.swift */; };
 		EABE84021F307ECF004593FD /* AnimationChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABE84001F307ECF004593FD /* AnimationChain.swift */; };
@@ -125,7 +124,6 @@
 				EAD602C91F0249C600AA67B6 /* Frameworks */,
 				EAD602CA1F0249C600AA67B6 /* Resources */,
 				33726A41100B8DE3D9C06BB3 /* [CP] Embed Pods Frameworks */,
-				94D4B4CD4809C335514398C8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -147,7 +145,7 @@
 				TargetAttributes = {
 					EAD602CB1F0249C600AA67B6 = {
 						CreatedOnToolsVersion = 8.3.3;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -202,21 +200,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		94D4B4CD4809C335514398C8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A06A2BE5AEAE5544A49B5FA2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -247,7 +230,6 @@
 				AEFCC6B91F9DCFB400069528 /* FoundationExtensions.swift in Sources */,
 				EABE84031F307ECF004593FD /* LinkedList.swift in Sources */,
 				EABE84021F307ECF004593FD /* AnimationChain.swift in Sources */,
-				AEFCC6BB1F9DD03300069528 /* UIKitExtensions.swift in Sources */,
 				EAA53BEB1F03B2CE002B8442 /* Page.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,8 +349,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -416,8 +397,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
