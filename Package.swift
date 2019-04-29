@@ -27,7 +27,6 @@ import PackageDescription
 let package = Package(
     name: "GoodSwift",
     dependencies: [
-        .Package(url: "https://github.com/Alamofire/Alamofire.git", versions: Version(4, 8, 0)..<Version(5, 0, 0)),
-        .Package(url: "https://github.com/JohnSundell/Unbox.git", versions: Version(3, 0, 0)..<Version(4, 0, 0))
+        .Package(url: "https://github.com/Alamofire/Alamofire.git", versions: Version(4, 8, 0)..<Version(5, 0, 0))
     ]
 )

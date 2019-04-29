@@ -19,6 +19,5 @@ Some good swift extensions, handfully crafted by GoodRequest team.
   s.source_files = 'Source/*'
   s.frameworks = 'UIKit'
   s.dependency 'Alamofire', '~> 4.8'
-  s.dependency 'Unbox', '~> 3.0'
 
 end
