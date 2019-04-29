@@ -1,9 +1,9 @@
 PODS:
-  - Alamofire (4.8.0)
-  - GoodSwift (0.9.0):
-    - Alamofire (~> 4.5)
-    - Unbox (~> 2.5)
-  - Unbox (2.5.0)
+  - Alamofire (4.8.2)
+  - GoodSwift (0.9.2):
+    - Alamofire (~> 4.8)
+    - Unbox (~> 3.0)
+  - Unbox (3.0.0)
 
 DEPENDENCIES:
   - GoodSwift (from `../GoodSwift.podspec`)
@@ -18,10 +18,10 @@ EXTERNAL SOURCES:
     :path: "../GoodSwift.podspec"
 
 SPEC CHECKSUMS:
-  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
-  GoodSwift: e6f0c72ca5fd907d64286bc42f07e107ad110c22
-  Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  GoodSwift: 9e4e5ba57183ded827b31e3495be1fbae0129da4
+  Unbox: 9ed33b2a31f7a8a049f54b94d40c4a52a28c4d9d
 
 PODFILE CHECKSUM: 89837cea4b51761f8931ea1a62ada58c8930da68
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

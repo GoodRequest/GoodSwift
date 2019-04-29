@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7184C5EC1C245EC551F962E2 /* Pods_GoodSwiftTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDC19815F9BF3A83732D428 /* Pods_GoodSwiftTest.framework */; };
+		6BA2425C2277149C004ED3CC /* AlamofireExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BEE1F03B3CF002B8442 /* AlamofireExtensions.swift */; };
+		7184C5EC1C245EC551F962E2 /* Pods_GoodSwiftTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDC19815F9BF3A83732D428 /* Pods_GoodSwiftTest.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		AEFCC6B91F9DCFB400069528 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFCC6B81F9DCFB400069528 /* FoundationExtensions.swift */; };
 		EAA53BEB1F03B2CE002B8442 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BE91F03B2CE002B8442 /* Page.swift */; };
 		EAA53BEC1F03B2CE002B8442 /* Revision.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA53BEA1F03B2CE002B8442 /* Revision.swift */; };
@@ -155,6 +156,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = EAD602C11F0248DF00AA67B6;
@@ -184,7 +186,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoodSwift/GoodSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
@@ -197,7 +199,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoodSwiftTest/Pods-GoodSwiftTest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A06A2BE5AEAE5544A49B5FA2 /* [CP] Check Pods Manifest.lock */ = {
@@ -225,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA2425C2277149C004ED3CC /* AlamofireExtensions.swift in Sources */,
 				EAA53BEC1F03B2CE002B8442 /* Revision.swift in Sources */,
 				EAD602D01F0249C600AA67B6 /* GoodSwiftTest.swift in Sources */,
 				AEFCC6B91F9DCFB400069528 /* FoundationExtensions.swift in Sources */,

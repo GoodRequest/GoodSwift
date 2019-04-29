@@ -6,20 +6,16 @@
 //
 //
 
-import Unbox
+import Foundation
 
-struct Revision {
+struct Revision: Codable {
     
     let items: [Int]
     let nextHref: String?
     
-}
-
-extension Revision: Unboxable {
-    
-    init(unboxer: Unboxer) throws {
-        self.items      = try unboxer.unbox(key : "items")
-        self.nextHref   = unboxer.unbox(key : "_links.next.href")
+    enum CodingKeys: String, CodingKey {
+        case items
+        case nextHref = "_links.next.href"
     }
     
 }

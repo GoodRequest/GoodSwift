@@ -23,7 +23,6 @@
 // THE SOFTWARE.
 
 import Alamofire
-import Unbox
 
 /// Log level enum
 ///
@@ -78,7 +77,7 @@ extension DataRequest {
                         logError("🚀 \(method) \(url)")
                     }
                 }
-                if let body = response.request?.httpBody, let string = String(data: body, encoding: String.Encoding.utf8), string.count > 0 {
+                if let body = response.request?.httpBody, let string = String(data: body, encoding: .utf8), !string.isEmpty {
                     logVerbose("📦 \(string)")
                 }
                 if let response = response.response {
@@ -90,7 +89,7 @@ extension DataRequest {
                         break
                     }
                 }
-                if let data = response.data, let string = String(data: data, encoding: String.Encoding.utf8), string.count > 0 {
+                if let data = response.data, let string = String(data: data, encoding: .utf8), !string.isEmpty {
                     logVerbose("📦 \(string)")
                 }
                 if let error = response.error as NSError? {
@@ -103,75 +102,34 @@ extension DataRequest {
         return self
     }
     
-    /// Unbox an array of JSON dictionaries into an array of `T`, optionally allowing invalid elements.
+    /// Decode a JSON dictionary into a model `T`.
     ///
-    /// - parameter keyPath:                JSON keyPath of the array.
-    /// - parameter allowInvalidElements:   Whether to allow invalid elements in array.
-    /// - parameter completion:             A closure to be executed once the request has finished.
+    /// - parameter completion: A closure to be executed once the request has finished.
     ///
     /// - returns: Self.
     @discardableResult
-    public func unboxArray<T: Unboxable>(keyPath: String? = nil, allowInvalidElements: Bool = false, completion: @escaping (DataResponse<[T]>) -> Void) -> Self {
+    public func decode<T: Decodable>(keyPath: String? = nil, dateFormat: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
         log()
-        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
+        return responseData(completionHandler: { (response: DataResponse<Data>) in
             switch response.result {
             case .success(let value):
                 if let httpResponse = response.response {
                     switch httpResponse.statusCode {
                     case 200 ..< 300:
                         do {
-                            let array = try unboxItems(value, atKeyPath: keyPath, allowInvalidElements: allowInvalidElements) as [T]
-                            completion(response.response(withValue: array))
-                        } catch let error {
-                            logError("‼️ Error while unboxing [\(T.self)]\n\(error)")
-                            completion(response.response(withError: error))
-                        }
-                    default:
-                        let error = GoodSwiftError(description: "‼️ Status code error \(httpResponse.statusCode)")
-                        logError(error.description)
-                        completion(response.response(withError: error))
-                    }
-                } else {
-                    let error = GoodSwiftError(description: "‼️ Error while unboxing [\(T.self)]")
-                    logError(error.description)
-                    completion(response.response(withError: error))
-                }
-            case .failure(let error):
-                logError(error.localizedDescription)
-                completion(response.response(withError: error))
-            }
-        })
-    }
-    
-    /// Unbox a JSON dictionary into a model `T` beginning at a certain key path.
-    ///
-    /// - parameter keyPath:                JSON keyPath of the model.
-    /// - parameter completion:             A closure to be executed once the request has finished.
-    ///
-    /// - returns: Self.
-    @discardableResult
-    public func unbox<T: Unboxable>(keyPath: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
-        log()
-        return responseJSON(completionHandler: { (response: DataResponse<Any>) in
-            switch response.result {
-            case .success(let value):
-                if let httpResponse = response.response {
-                    switch httpResponse.statusCode {
-                    case 200 ..< 300:
-                        do {
-                            let item = try unboxItem(value, atKeyPath: keyPath) as T
+                            let item = try decodeData(value, atKeyPath: keyPath, dateFormat: dateFormat) as T
                             completion(response.response(withValue: item))
                         } catch let error {
-                            logError("‼️ Error while unboxing \(T.self)\n\(error)")
+                            logError("‼️ Error while decoding \(T.self)\n\(error)")
                             completion(response.response(withError: error))
                         }
                     default:
-                        let error = GoodSwiftError(description: "‼️ Status code error \(httpResponse.statusCode)")
+                        let error = GoodSwiftError(description: "‼️ code error \(httpResponse.statusCode)")
                         logError(error.description)
                         completion(response.response(withError: error))
                     }
                 } else {
-                    let error = GoodSwiftError(description: "‼️ Error while unboxing \(T.self)")
+                    let error = GoodSwiftError(description: "‼️ Error while decoding \(T.self)")
                     logError(error.description)
                     completion(response.response(withError: error))
                 }
@@ -198,33 +156,29 @@ extension DataResponse {
     
 }
 
-func unboxItem<T: Unboxable>(_ value: Any, atKeyPath keyPath: String? = nil) throws -> T {
+func decodeData<T: Decodable>(_ value: Data, atKeyPath keyPath: String? = nil, dateFormat: String? = nil) throws -> T {
+    let decoder = JSONDecoder()
     var item: T?
-    if let dictionary = value as? UnboxableDictionary {
-        if let keyPath = keyPath {
-            item = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath) as T
-        } else {
-            item = try Unbox.unbox(dictionary: dictionary) as T
-        }
+    
+    if let dateFormat = dateFormat {
+        decoder.dateDecodingStrategy = .formatted(DateFormatter(format: dateFormat))
     }
+
+    do {
+        if let keyPath = keyPath {
+            let nestedItem = try decoder.decode([String: T].self, from: value)
+            item = nestedItem[keyPath]
+        } else {
+            item = try decoder.decode(T.self, from: value)
+        }
+    } catch {
+        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not decodable.")
+    }
+    
     if let item = item {
         return item
     } else {
-        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not unboxable.")
-    }
-}
-
-func unboxItems<T: Unboxable>(_ value: Any, atKeyPath keyPath: String? = nil, allowInvalidElements: Bool = false) throws -> [T] {
-    var array: [T]?
-    if let keyPath = keyPath, let dictionary = value as? UnboxableDictionary {
-        array = try Unbox.unbox(dictionary: dictionary, atKeyPath: keyPath, allowInvalidElements: allowInvalidElements)
-    } else if let dictionaries = value as? [UnboxableDictionary] {
-        array = try Unbox.unbox(dictionaries: dictionaries, allowInvalidElements: allowInvalidElements)
-    }
-    if let array = array {
-        return array
-    } else {
-        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not unboxable.")
+        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not decodable.")
     }
 }
 
