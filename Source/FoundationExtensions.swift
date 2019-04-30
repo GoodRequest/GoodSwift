@@ -155,3 +155,17 @@ extension DateFormatter {
     }
     
 }
+
+extension Encodable {
+    
+    /// Encodes given Encodable value into a dictionary
+    ///
+    /// - parameter encoder: Custom JSONEncoder object
+    /// - returns: Object encoded as dictionary
+    public func jsonDictionary(encoder: JSONEncoder = JSONEncoder()) -> [String: Any]? {
+        guard let data = try? encoder.encode(self) else { return nil }
+        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
+    }
+    
+}
+
