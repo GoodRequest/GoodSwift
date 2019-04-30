@@ -124,7 +124,7 @@ extension DataRequest {
                             completion(response.response(withError: error))
                         }
                     default:
-                        let error = GoodSwiftError(description: "‼️ code error \(httpResponse.statusCode)")
+                        let error = GoodSwiftError(description: "‼️ Status code error \(httpResponse.statusCode)")
                         logError(error.description)
                         completion(response.response(withError: error))
                     }

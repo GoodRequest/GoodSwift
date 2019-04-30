@@ -171,8 +171,8 @@ extension Encodable {
 
 extension Data {
     
-    /// Return pretty printed JSON localized String from current string.
-    /// - returns: A JSON String.
+    /// Return pretty printed JSON string.
+    /// - returns: A JSON string.
     var jsonString: String? {
         guard let object = try? JSONSerialization.jsonObject(with: self, options: .allowFragments),
             let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
