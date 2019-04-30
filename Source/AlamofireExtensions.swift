@@ -68,7 +68,7 @@ extension DataRequest {
     @discardableResult
     public func log() -> Self {
         #if DEBUG
-            response(completionHandler: { (response: DefaultDataResponse) in
+            response() { (response: DefaultDataResponse) in
                 print("")
                 if let url = response.request?.url?.absoluteString.removingPercentEncoding, let method = response.request?.httpMethod {
                     if response.error == nil {
@@ -77,7 +77,7 @@ extension DataRequest {
                         logError("🚀 \(method) \(url)")
                     }
                 }
-                if let body = response.request?.httpBody, let string = String(data: body, encoding: .utf8), !string.isEmpty {
+                if let string = response.request?.httpBody?.jsonString, !string.isEmpty {
                     logVerbose("📦 \(string)")
                 }
                 if let response = response.response {
@@ -89,7 +89,7 @@ extension DataRequest {
                         break
                     }
                 }
-                if let data = response.data, let string = String(data: data, encoding: .utf8), !string.isEmpty {
+                if let string = response.data?.jsonString, !string.isEmpty {
                     logVerbose("📦 \(string)")
                 }
                 if let error = response.error as NSError? {
@@ -97,7 +97,7 @@ extension DataRequest {
                 } else if let error = response.error {
                     logError("‼️ \(error)")
                 }
-            })
+            }
         #endif
         return self
     }

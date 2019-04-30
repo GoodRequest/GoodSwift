@@ -169,3 +169,15 @@ extension Encodable {
     
 }
 
+extension Data {
+    
+    /// Return pretty printed JSON localized String from current string.
+    /// - returns: A JSON String.
+    var jsonString: String? {
+        guard let object = try? JSONSerialization.jsonObject(with: self, options: .allowFragments),
+            let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
+            else { return nil }
+        return String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\/", with: "/") 
+    }
+    
+}
