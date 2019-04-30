@@ -14,10 +14,10 @@ Some good swift extensions, handfully crafted by GoodRequest team.
   s.social_media_url = 'https://twitter.com/goodrequestcom'
 
   s.ios.deployment_target = '10.0'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 
   s.source_files = 'Source/*'
   s.frameworks = 'UIKit'
-  s.dependency 'Alamofire', '~> 4.8'
+  s.dependency 'Alamofire', '~> 5.0.0-beta.6'
 
 end

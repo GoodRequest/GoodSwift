@@ -26,7 +26,7 @@ class GoodSwiftTest: XCTestCase {
         DataRequest.logLevel = .verbose
     }
     
-    func evaluate<T>(expectation: XCTestExpectation, result: Result<T>) {
+    func evaluate<T>(expectation: XCTestExpectation, result: AFResult<T>) {
         switch result {
         case .success(let value):
             print(value)
@@ -39,7 +39,7 @@ class GoodSwiftTest: XCTestCase {
     func testSummary() {
         let exp = expectation(description: "Summary expectation")
         
-        Alamofire.request(Endpoint.summary).decode { (response: DataResponse<Page>) in
+        AF.request(Endpoint.summary).decode { (response: DataResponse<Page>) in
             self.evaluate(expectation: exp, result: response.result)
         }
         waitForExpectations(timeout: timeout, handler: nil)
@@ -48,7 +48,7 @@ class GoodSwiftTest: XCTestCase {
     func testRelatedPages() {
         let exp = expectation(description: "Related pages expectation")
         
-        Alamofire.request(Endpoint.relatedPages).decode(key: "pages") { (response: DataResponse<[Page]>) in
+        AF.request(Endpoint.relatedPages).decode(key: "pages") { (response: DataResponse<[Page]>) in
             self.evaluate(expectation: exp, result: response.result)
         }
         waitForExpectations(timeout: timeout, handler: nil)
@@ -57,7 +57,7 @@ class GoodSwiftTest: XCTestCase {
     func testWrongKeyPath() {
         let exp = expectation(description: "Wrong key path expectation")
         
-        Alamofire.request(Endpoint.relatedPages).decode(key: nil) { (response: DataResponse<[Page]>) in
+        AF.request(Endpoint.relatedPages).decode(key: nil) { (response: DataResponse<[Page]>) in
             switch response.result {
             case .success(let value):
                 print(value)
@@ -76,7 +76,7 @@ class GoodSwiftTest: XCTestCase {
     func testNotFound() {
         let exp = expectation(description: "Not found (404) expectation")
         
-        Alamofire.request(Endpoint.notFound).decode { (response: DataResponse<Revision>) in
+        AF.request(Endpoint.notFound).decode { (response: DataResponse<Revision>) in
             switch response.result {
             case .success(let value):
                 print(value)

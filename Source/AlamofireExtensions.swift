@@ -68,7 +68,7 @@ extension DataRequest {
     @discardableResult
     public func log() -> Self {
         #if DEBUG
-            response() { (response: DefaultDataResponse) in
+            response() { (response: DataResponse<Data?>) in
                 print("")
                 if let url = response.request?.url?.absoluteString.removingPercentEncoding, let method = response.request?.httpMethod {
                     if response.error == nil {
@@ -147,11 +147,11 @@ extension DataRequest {
 extension DataResponse {
     
     func response<T>(withValue value: T) -> DataResponse<T> {
-        return DataResponse<T>(request: request, response: response, data: data, result: Result<T>.success(value))
+        return DataResponse<T>(request: request, response: response, data: data, metrics: nil, serializationDuration: 0, result: AFResult<T>.success(value))
     }
     
     func response<T>(withError error: Error) -> DataResponse<T> {
-        return DataResponse<T>(request: request, response: response, data: data, result: Result<T>.failure(error))
+        return DataResponse<T>(request: request, response: response, data: data, metrics: nil, serializationDuration: 0, result: AFResult<T>.failure(error))
     }
     
 }
