@@ -108,7 +108,7 @@ extension DataRequest {
     ///
     /// - returns: Self.
     @discardableResult
-    public func decode<T: Decodable>(keyPath: String? = nil, dateFormat: String? = nil, completion: @escaping (DataResponse<T>) -> Void) -> Self {
+    public func decode<T: Decodable>(key: String? = nil, decoder: JSONDecoder = JSONDecoder(), completion: @escaping (DataResponse<T>) -> Void) -> Self {
         log()
         return responseData(completionHandler: { (response: DataResponse<Data>) in
             switch response.result {
@@ -117,7 +117,7 @@ extension DataRequest {
                     switch httpResponse.statusCode {
                     case 200 ..< 300:
                         do {
-                            let item = try decodeData(value, atKeyPath: keyPath, dateFormat: dateFormat) as T
+                            let item = try decodeData(value, for: key, decoder: decoder) as T
                             completion(response.response(withValue: item))
                         } catch let error {
                             logError("‼️ Error while decoding \(T.self)\n\(error)")
@@ -156,29 +156,24 @@ extension DataResponse {
     
 }
 
-func decodeData<T: Decodable>(_ value: Data, atKeyPath keyPath: String? = nil, dateFormat: String? = nil) throws -> T {
-    let decoder = JSONDecoder()
+func decodeData<T: Decodable>(_ value: Data, for key: String?, decoder: JSONDecoder) throws -> T {
     var item: T?
     
-    if let dateFormat = dateFormat {
-        decoder.dateDecodingStrategy = .formatted(DateFormatter(format: dateFormat))
-    }
-
     do {
-        if let keyPath = keyPath {
+        if let key = key {
             let nestedItem = try decoder.decode([String: T].self, from: value)
-            item = nestedItem[keyPath]
+            item = nestedItem[key]
         } else {
             item = try decoder.decode(T.self, from: value)
         }
     } catch {
-        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not decodable.")
+        throw GoodSwiftError(description: "‼️ Decoding error: \(error)")
     }
     
     if let item = item {
         return item
     } else {
-        throw GoodSwiftError(description: "‼️ Path \"\(keyPath ?? "")\" is missing or not decodable.")
+        throw GoodSwiftError(description: "‼️ Key \"\(key ?? "")\" is missing or not decodable.")
     }
 }
 

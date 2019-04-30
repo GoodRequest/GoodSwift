@@ -48,7 +48,7 @@ class GoodSwiftTest: XCTestCase {
     func testRelatedPages() {
         let exp = expectation(description: "Related pages expectation")
         
-        Alamofire.request(Endpoint.relatedPages).decode(keyPath: "pages") { (response: DataResponse<[Page]>) in
+        Alamofire.request(Endpoint.relatedPages).decode(key: "pages") { (response: DataResponse<[Page]>) in
             self.evaluate(expectation: exp, result: response.result)
         }
         waitForExpectations(timeout: timeout, handler: nil)
@@ -57,7 +57,7 @@ class GoodSwiftTest: XCTestCase {
     func testWrongKeyPath() {
         let exp = expectation(description: "Wrong key path expectation")
         
-        Alamofire.request(Endpoint.relatedPages).decode(keyPath: nil) { (response: DataResponse<[Page]>) in
+        Alamofire.request(Endpoint.relatedPages).decode(key: nil) { (response: DataResponse<[Page]>) in
             switch response.result {
             case .success(let value):
                 print(value)
