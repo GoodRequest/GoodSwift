@@ -169,6 +169,27 @@ extension Encodable {
     
 }
 
+extension KeyedDecodingContainer {
+    
+    /// Decodes a value of the given type for the given key.
+    ///
+    /// - parameter type: The type of value to decode.
+    /// - parameter key: The key that the decoded value is associated with.
+    /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
+    public func decode<T: Decodable>(_ key: Key, as type: T.Type = T.self) throws -> T {
+        return try decode(T.self, forKey: key)
+    }
+    
+    /// Decodes a value of the given type for the given key, if present.
+    ///
+    /// - parameter key: The key that the decoded value is associated with.
+    /// - returns: A decoded value of the requested type, or nil if the Decoder does not have an entry associated with the given key, or if the value is a null value.
+    public func decodeIfPresent<T: Decodable>(_ key: KeyedDecodingContainer.Key) throws -> T? {
+        return try decodeIfPresent(T.self, forKey: key)
+    }
+    
+}
+
 extension Data {
     
     /// Return pretty printed JSON string.
