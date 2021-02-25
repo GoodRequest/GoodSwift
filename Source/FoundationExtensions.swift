@@ -155,3 +155,50 @@ extension DateFormatter {
     }
     
 }
+
+extension Encodable {
+    
+    /// Encodes given Encodable value into a dictionary
+    ///
+    /// - parameter encoder: Custom JSONEncoder object
+    /// - returns: Object encoded as dictionary
+    public func jsonDictionary(encoder: JSONEncoder = JSONEncoder()) -> [String: Any]? {
+        guard let data = try? encoder.encode(self) else { return nil }
+        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
+    }
+    
+}
+
+extension KeyedDecodingContainer {
+    
+    /// Decodes a value of the given type for the given key.
+    ///
+    /// - parameter type: The type of value to decode.
+    /// - parameter key: The key that the decoded value is associated with.
+    /// - returns: A value of the requested type, if present for the given key and convertible to the requested type.
+    public func decode<T: Decodable>(_ key: Key, as type: T.Type = T.self) throws -> T {
+        return try decode(T.self, forKey: key)
+    }
+    
+    /// Decodes a value of the given type for the given key, if present.
+    ///
+    /// - parameter key: The key that the decoded value is associated with.
+    /// - returns: A decoded value of the requested type, or nil if the Decoder does not have an entry associated with the given key, or if the value is a null value.
+    public func decodeIfPresent<T: Decodable>(_ key: KeyedDecodingContainer.Key) throws -> T? {
+        return try decodeIfPresent(T.self, forKey: key)
+    }
+    
+}
+
+extension Data {
+    
+    /// Return pretty printed JSON string.
+    /// - returns: A JSON string.
+    var jsonString: String? {
+        guard let object = try? JSONSerialization.jsonObject(with: self, options: .allowFragments),
+            let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
+            else { return nil }
+        return String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\/", with: "/") 
+    }
+    
+}

@@ -17,7 +17,7 @@ Some good swift extensions, handfully crafted by GoodRequest team.
 
 - iOS 10.0+
 - Xcode 10.0+
-- Swift 4.2 (for Swift 4.0 use version 0.9.0)
+- Swift 5.0 (for Swift 4.2 use version 0.9.2)
 
 ## Installation
 
@@ -32,38 +32,31 @@ pod 'GoodSwift'
 
 ### Mapping
 
-**.good**swift allows you to easily decode JSON objects from [Alamofire](https://github.com/Alamofire/Alamofire) responses using [Unbox](https://github.com/JohnSundell/Unbox) decoder. You can see examples how to map your model in [Unbox readme](https://github.com/JohnSundell/Unbox/blob/master/README.md).
+**.good**swift allows you to easily decode JSON objects that conforms to Decodable from [Alamofire](https://github.com/Alamofire/Alamofire) responses. You can see examples how to map custom Types in [Apple documentation](https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types).
 
 ```swift
-import Unbox
+import Foundation
 
-struct Foo {
+struct Foo: Decodable {
     let origin: String
-    let url:    URL
-}
-
-extension Foo: Unboxable {
-    init(unboxer: Unboxer) throws {
-        self.origin = try unboxer.unbox(key: "origin")
-        self.url = try unboxer.unbox(key: "url")
-    }
+    let url: URL
 }
 ```
 
-Then you just need to use `unbox` or `unboxArray` functions to decode your model.
+Then you just need to use `decode` function to decode your model.
 
 ```swift
 import Alamofire
 import GoodSwift
 
-Alamofire.request("https://httpbin.org/get").unbox(completion: { (response: DataResponse<Foo>) in
+Alamofire.request("https://httpbin.org/get").decode { (response: DataResponse<Foo>) in
     switch response.result {
     case .success(let foo):
         // Decoded object
     case .failure(let error):
         // Handle error
     }
-})
+}
 ```
 
 ### Logging
