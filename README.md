@@ -143,8 +143,6 @@ Tomas Gibas, tomas.gibas@goodrequest.com
 
 Dominik Petho, dominik.petho@goodrequest.com
 
-Matus Littva, matus.littva@goodrequest.com
-
 ## License
 
 **.good**swift is available under the MIT license. See the LICENSE file for more info.
