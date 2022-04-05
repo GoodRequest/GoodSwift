@@ -8,7 +8,7 @@
 
 import XCTest
 import Alamofire
-import GoodSwift
+@testable import GoodSwift
 
 let timeout: TimeInterval = 10
 
@@ -26,7 +26,7 @@ class GoodSwiftTest: XCTestCase {
         DataRequest.logLevel = .verbose
     }
     
-    func evaluate<T>(expectation: XCTestExpectation, result: Result<T>) {
+    func evaluate<T>(expectation: XCTestExpectation, result: Result<T, AFError>) {
         switch result {
         case .success(let value):
             print(value)
@@ -39,8 +39,8 @@ class GoodSwiftTest: XCTestCase {
     func testSummary() {
         let exp = expectation(description: "Summary expectation")
         
-        Alamofire.request(Endpoint.summary).unbox() { (response: DataResponse<Page>) in
-            self.evaluate(expectation: exp, result: response.result)
+        AF.request(Endpoint.summary).unbox() { (result: Result<Page, AFError>) in
+            self.evaluate(expectation: exp, result: result)
         }
         waitForExpectations(timeout: timeout, handler: nil)
     }
@@ -48,8 +48,8 @@ class GoodSwiftTest: XCTestCase {
     func testRelatedPages() {
         let exp = expectation(description: "Related pages expectation")
         
-        Alamofire.request(Endpoint.relatedPages).unboxArray(keyPath: "pages") { (response: DataResponse<[Page]>) in
-            self.evaluate(expectation: exp, result: response.result)
+        AF.request(Endpoint.relatedPages).unboxArray(keyPath: "pages") { (result: Result<[Page], AFError>) in
+            self.evaluate(expectation: exp, result: result)
         }
         waitForExpectations(timeout: timeout, handler: nil)
     }
@@ -57,13 +57,13 @@ class GoodSwiftTest: XCTestCase {
     func testWrongKeyPath() {
         let exp = expectation(description: "Wrong key path expectation")
         
-        Alamofire.request(Endpoint.relatedPages).unboxArray(keyPath: nil) { (response: DataResponse<[Page]>) in
-            switch response.result {
+        AF.request(Endpoint.relatedPages).unboxArray(keyPath: nil) { (result: Result<[Page], AFError>) in
+            switch result {
             case .success(let value):
                 print(value)
                 XCTFail()
             case .failure(let error):
-                if error is GoodSwiftError {
+                if error.isResponseSerializationError {
                     exp.fulfill()
                 } else {
                     XCTFail(error.localizedDescription)
@@ -76,13 +76,13 @@ class GoodSwiftTest: XCTestCase {
     func testNotFound() {
         let exp = expectation(description: "Not found (404) expectation")
         
-        Alamofire.request(Endpoint.notFound).unbox { (response: DataResponse<Revision>) in
-            switch response.result {
+        AF.request(Endpoint.notFound).unbox { (result: Result<Revision, AFError>) in
+            switch result {
             case .success(let value):
                 print(value)
                 XCTFail()
             case .failure(let error):
-                if response.response?.statusCode == 404 {
+                if ((error.underlyingError as? GoodSwiftError) != nil) {
                     exp.fulfill()
                 } else {
                     XCTFail(error.localizedDescription)

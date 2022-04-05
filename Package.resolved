@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "d120af1e8638c7da36c8481fd61a66c0c08dc4fc",
+          "version": "5.4.4"
+        }
+      },
+      {
+        "package": "Unbox",
+        "repositoryURL": "https://github.com/JohnSundell/Unbox.git",
+        "state": {
+          "branch": null,
+          "revision": "9575afeb61597fdea9070ca07effede5fb37c2c8",
+          "version": "3.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
