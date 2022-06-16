@@ -35,7 +35,7 @@ let package = Package(
         .library(name: "GoodSwift", type: .dynamic, targets: ["GoodSwift"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMinor(from: "5.4.0")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.0.0")),
         .package(url: "https://github.com/JohnSundell/Unbox.git", .upToNextMajor(from: "3.0.0"))
     ],
     targets: [
