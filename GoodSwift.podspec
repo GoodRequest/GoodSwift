@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GoodSwift'
-  s.version          = '0.9.2'
+  s.version          = '0.10.0'
   s.summary          = 'Some good swift extensions.'
 
   s.description      = <<-DESC
@@ -14,11 +14,11 @@ Some good swift extensions, handfully crafted by GoodRequest team.
   s.social_media_url = 'https://twitter.com/goodrequestcom'
 
   s.ios.deployment_target = '10.0'
-  s.swift_version = '4.2'
+  s.swift_version = '5.1'
 
-  s.source_files = 'Source/*'
+  s.source_files = 'Sources/GoodSwift/*'
   s.frameworks = 'UIKit'
-  s.dependency 'Alamofire', '~> 4.8'
+  s.dependency 'Alamofire', '~> 5.4'
   s.dependency 'Unbox', '~> 3.0'
 
 end

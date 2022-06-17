@@ -7,6 +7,7 @@
 //
 
 import Unbox
+import Foundation
 
 struct Page {
     
