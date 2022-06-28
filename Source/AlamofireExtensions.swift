@@ -24,6 +24,7 @@
 
 import Alamofire
 import Unbox
+import Foundation
 
 /// Log level enum
 ///

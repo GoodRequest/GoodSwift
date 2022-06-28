@@ -1,3 +1,5 @@
+// swift-tools-version:5.3
+
 //
 // Package.swift
 // GoodSwift
@@ -26,8 +28,18 @@ import PackageDescription
 
 let package = Package(
     name: "GoodSwift",
+    platforms: [
+        .iOS(.v10)
+    ],
+    products: [
+        .library(name: "GoodSwift", type: .dynamic, targets: ["GoodSwift"])
+    ],
     dependencies: [
-        .Package(url: "https://github.com/Alamofire/Alamofire.git", versions: Version(4, 8, 0)..<Version(5, 0, 0)),
-        .Package(url: "https://github.com/JohnSundell/Unbox.git", versions: Version(3, 0, 0)..<Version(4, 0, 0))
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "4.8.0")),
+        .package(url: "https://github.com/JohnSundell/Unbox.git", .upToNextMajor(from: "3.0.0"))
+    ],
+    targets: [
+        .target(name: "GoodSwift", dependencies: ["Alamofire", "Unbox"], path: "Source"),
+        .testTarget(name: "GoodSwiftTests", dependencies: ["Alamofire", "Unbox", "GoodSwift"], path: "Example/GoodSwiftTest", exclude: ["Info.plist"])
     ]
 )
